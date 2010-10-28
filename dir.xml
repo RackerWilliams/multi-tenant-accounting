@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE article [
+        <!-- Some useful entities borrowed from HTML -->
+        <!ENTITY ndash  "&#x2013;">
+        <!ENTITY mdash  "&#x2014;">
+        <!ENTITY hellip "&#x2026;">
+
+        <!-- Useful for describing APIs -->
+        <!ENTITY GET    '<command xmlns="http://docbook.org/ns/docbook">GET</command>'>
+        <!ENTITY PUT    '<command xmlns="http://docbook.org/ns/docbook">PUT</command>'>
+        <!ENTITY POST   '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
+        <!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
+
+        <!-- Useful for specs -->
+        <!ENTITY MAY    '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>'>
+        <!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
+        <!ENTITY MUST   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis>'>
+        <!ENTITY MUST_NOT   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis>'>
+]>
+
+<article version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook"
+         class="specification"
+         status="draft">
+    <info>
+        <title>Resource Directories in OpenStack</title>
+        <author>
+            <personname>
+                <firstname>Jorge</firstname>
+                <surname>Williams</surname>
+                <othername role="mi">L</othername>
+            </personname>
+            <email>jorge.williams@rackspace.com</email>
+        </author>
+        <abstract>
+            <para>
+                The purpose of this blueprint is to define a standard
+                method of organizing resources in OpenStack. Resource
+                organization is important because most cloud service
+                deployments are multi-tenant. Building multi-tenant
+                services is complicated and often involves knowledge
+                of buisness processes that vary from one organization
+                to another. In this blueprint, we propose a method of
+                organizing resources that allows multi-tenancy to be
+                implemented on top of OpenStack services. This
+                approach will lower barriers to service deleopers by
+                allowing them to develop services without a-priori
+                knowledge of billing and accounting processes of the
+                organization in which the services are
+                deployed. Likewise, organization will be given
+                flexability in the manner in which they deploy and
+                offer OpenStack services.
+            </para>
+        </abstract>
+        <keywordset>
+            <keyword>OpenStack</keyword>
+            <keyword>Resources Directories</keyword>
+            <keyword>Resource Organization</keyword>
+        </keywordset>
+    </info>
+    <section>
+        <title>Rationale and Goals</title>
+        <para>
+
+        </para>
+    </section>
+    <section>
+        <title>Specification Overview</title>
+        <para>
+        </para>
+    </section>
+    <section>
+        <title>Questions and Answers</title>
+        <qandaset defaultlabel="number">
+            <qandaentry>
+                <question>
+                    <para>
+                    </para>
+                </question>
+                <answer>
+                    <para>
+                    </para>
+                </answer>
+            </qandaentry>
+        </qandaset>
+    </section>
+</article>
