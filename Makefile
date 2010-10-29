@@ -1,7 +1,7 @@
 ##
 ## Resources
 ##
-NAME=dir
+NAME=accounts
 DOCBOOK_SCHEMA=rng/docbook.rng
 FOP_XSLT=xsl/auth-blueprint-fo.xsl
 XSLTHL_CONFIG=file://$(shell pwd)/xsl/docbook/highlighting/xslthl-config.xml
