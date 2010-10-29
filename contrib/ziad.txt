@@ -1,0 +1,22 @@
+Blueprint Name:
+
+Create a standard for identifying tenants in a multi-tenant OpenStack
+deployment
+
+Description:
+
+As a cloud computing platform, OpenStack needs to support the concept
+of multi-tenancy. A common definition of a ‘tenant’ across services is
+necessary to be able to correlate usage tracking, auditing,
+authorization, etc… Within each multi-tenant service, the ability to
+identify each tenant’s resources (for various reasons such as
+security, accounting, isolation, etc…) is also key. However, the
+definition of a ‘tenant’ can vary significantly between deployments
+and for different operators. This blueprint therefore proposes a
+lightweight standard for how to identify tenants in an OpenStack
+deployment.
+
+What is an Account?
+
+An account is an arbitrary string used to organize a collection of
+resources within a container or identify them as a group.
