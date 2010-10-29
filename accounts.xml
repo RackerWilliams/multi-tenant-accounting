@@ -30,16 +30,50 @@
          class="specification"
          status="draft">
     <info>
-        <title>Resource Directories in OpenStack</title>
-        <author>
-            <personname>
-                <firstname>Jorge</firstname>
-                <surname>Williams</surname>
-                <othername role="mi">L</othername>
-            </personname>
-            <email>jorge.williams@rackspace.com</email>
-        </author>
+        <title>Multi-Tenancy in OpenStack</title>
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Jorge</firstname>
+                    <surname>Williams</surname>
+                    <othername role="mi">L</othername>
+                </personname>
+                <email>jorge.williams@rackspace.com</email>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Ziad</firstname>
+                    <surname>Sawalha</surname>
+                    <othername role="mi">N</othername>
+                </personname>
+                <email>ziad.sawalha@rackspace.com</email>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Khaled</firstname>
+                    <surname>Hussein</surname>
+                </personname>
+                <email>khaled.hussein@rackspace.com</email>
+            </author>
+        </authorgroup>
         <abstract>
+            <para>
+                As a cloud computing platform, OpenStack must support
+                the concept of multi-tenancy. A common approach to
+                organizing resources by 'tenant' across services is
+                needed to be able to correlate usage tracking,
+                auditing, authorization, etc... And within each
+                multi-tenant service, the ability to identify each
+                tenant's resources (for various reasons such as
+                security, accounting, isolation, etc…) is also
+                key. However, the definition of a 'tenant' will vary
+                by operator and by deployment. This blueprint
+                therefore proposes creating a lightweight standard for
+                service developers to implement tenancy and resource
+                grouping without a-priori knowledge of billing and
+                accounting processes specific to the operator of an
+                OpenStack deployment.
+            </para>
             <para>
                 The purpose of this blueprint is to define a standard
                 method of organizing resources in OpenStack. Resource
@@ -61,14 +95,13 @@
         </abstract>
         <keywordset>
             <keyword>OpenStack</keyword>
-            <keyword>Resources Directories</keyword>
+            <keyword>Multi-Tenancy</keyword>
             <keyword>Resource Organization</keyword>
         </keywordset>
     </info>
     <section>
         <title>Rationale and Goals</title>
         <para>
-
         </para>
     </section>
     <section>
