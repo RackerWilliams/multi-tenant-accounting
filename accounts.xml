@@ -12,6 +12,27 @@
         <!ENTITY POST   '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
         <!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
 
+        <!ENTITY CODES       'Normal Response Code(s):'>
+        <!ENTITY ERROR_CODES 'Error Response Code(s):'>
+
+        <!ENTITY LONG_URI_REFHEAD '
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>'>
+        <!ENTITY URI_REFHEAD '
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="1">URI</td>
+              <td colspan="4">Description</td>
+            </tr>
+          </thead>'>
+
+
         <!-- Useful for specs -->
         <!ENTITY MAY    '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>'>
         <!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
@@ -117,6 +138,61 @@
                 </imageobject>
             </mediaobject>
         </figure>
+        <section>
+            <title>Accounts and Tenants</title>
+            <para>
+            </para>
+        </section>
+        <section>
+            <title>Account Lifecycle</title>
+            <para>
+            </para>
+        </section>
+        <section>
+            <title>Admin API</title>
+            <para>
+            </para>
+            <section>
+                <title>Required Operations</title>
+                <para>
+                </para>
+                <section>
+                    <title>Get Account Information</title>
+                    <para>
+                    </para>
+                </section>
+                <section>
+                    <title>Create an Account</title>
+                    <para>
+                    </para>
+                </section>
+                <section>
+                    <title>Remove an Account</title>
+                    <para>
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Optional Operations</title>
+                <para>
+                </para>
+                <section>
+                    <title>Move a Resource</title>
+                    <para>
+                    </para>
+                </section>
+                <section>
+                    <title>Merge/Rename an Account</title>
+                    <para>
+                    </para>
+                </section>
+                <section>
+                    <title>Ensuring Consistency</title>
+                    <para>
+                    </para>
+                </section>
+            </section>
+        </section>
     </section>
     <section>
         <title>Questions and Answers</title>
