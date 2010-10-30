@@ -158,6 +158,26 @@
                 </para>
                 <section>
                     <title>Create an Account</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&PUT;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
+                                <td colspan="3">Create an Account</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES; <returnvalue>200</returnvalue>,
+                        <returnvalue>203</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES; <errorcode>400</errorcode>,
+                        <errorcode>410</errorcode>,
+                        <errorcode>404</errorcode>
+                    </simpara>
                     <para>
                     </para>
                 </section>
