@@ -8,6 +8,7 @@
 
         <!-- Useful for describing APIs -->
         <!ENTITY GET    '<command xmlns="http://docbook.org/ns/docbook">GET</command>'>
+        <!ENTITY HEAD   '<command xmlns="http://docbook.org/ns/docbook">HEAD</command>'>
         <!ENTITY PUT    '<command xmlns="http://docbook.org/ns/docbook">PUT</command>'>
         <!ENTITY POST   '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
         <!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
@@ -157,6 +158,60 @@
                 <para>
                 </para>
                 <section>
+                    <title>Get Account</title>
+                    <para>
+                    </para>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&GET;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
+                                <td colspan="3">Get Account</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>200</returnvalue>,
+                        <returnvalue>203</returnvalue>,
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                </section>
+                <section>
+                    <title>Get Account Metadata</title>
+                    <para>
+                    </para>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&HEAD;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
+                                <td colspan="3">Get Account Metadata</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                </section>
+                <section>
                     <title>Create an Account</title>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
@@ -165,18 +220,20 @@
                                 <td colspan="1">&PUT;
                                 </td>
                                 <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Create an Account</td>
+                                <td colspan="3">Create an Account.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES; <returnvalue>200</returnvalue>,
+                        &CODES;
+                        <returnvalue>204</returnvalue>,
+                        <returnvalue>200</returnvalue>,
                         <returnvalue>203</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES; <errorcode>400</errorcode>,
-                        <errorcode>410</errorcode>,
-                        <errorcode>404</errorcode>
+                        &ERROR_CODES;
+                        <errorcode>409</errorcode>,
+                        others &hellip;
                     </simpara>
                     <para>
                     </para>
@@ -185,11 +242,27 @@
                     <title>Remove an Account</title>
                     <para>
                     </para>
-                </section>
-                <section>
-                    <title>Get Account Resources</title>
-                    <para>
-                    </para>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&DELETE;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
+                                <td colspan="3">Remove an Account.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
                 </section>
             </section>
             <section>
