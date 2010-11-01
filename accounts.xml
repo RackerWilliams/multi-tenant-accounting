@@ -327,6 +327,75 @@
                     <title>Ensuring Consistency</title>
                     <para>
                     </para>
+                    <section>
+                        <title>Get a Move Action</title>
+                        <para>
+                        </para>
+                        <informaltable rules="all">
+                            &LONG_URI_REFHEAD;
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">&GET;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="3">Get resource move action.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">&GET;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="3">Get all resource move action.</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                        <simpara>
+                            &CODES;
+                            <returnvalue>200</returnvalue>,
+                            <returnvalue>203</returnvalue>
+                        </simpara>
+                        <simpara>
+                            &ERROR_CODES;
+                            <errorcode>404</errorcode>,
+                            <errorcode>410</errorcode>,
+                            <errorcode>409</errorcode>,
+                            others &hellip;
+                        </simpara>
+                    </section>
+                    <section>
+                        <title>Conditional Move</title>
+                        <para>
+                        </para>
+                        <informaltable rules="all">
+                            &LONG_URI_REFHEAD;
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">&POST;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="3">Perform a conditional move operation on a resource..</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">&POST;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="3">Perform a conditional move operation on all resources.</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                        <simpara>
+                            &CODES;
+                            <returnvalue>200</returnvalue>,
+                            <returnvalue>203</returnvalue>
+                        </simpara>
+                        <simpara>
+                            &ERROR_CODES;
+                            <errorcode>404</errorcode>,
+                            <errorcode>410</errorcode>,
+                            <errorcode>409</errorcode>,
+                            <errorcode>412</errorcode>,
+                            others &hellip;
+                        </simpara>
+                    </section>
                 </section>
             </section>
         </section>
