@@ -196,8 +196,10 @@
                     The following operations &MUST; be implemented by
                     OpenStack services and &MUST; be made available
                     via the admin API.  At their desgretion, service
-                    operators &MAY; provide public access to a subset
-                    of these calls via the public API.
+                    operators &MAY; provide public access to &GET; and
+                    &HEAD; operations.  The &PUT; and &DELETE; calls,
+                    however, should be accessible strictly from the
+                    admin API.
                 </para>
                 <section>
                     <title>Get Account</title>
