@@ -265,8 +265,6 @@
                 </section>
                 <section>
                     <title>Get Account Metadata</title>
-                    <para>
-                    </para>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
                         <tbody>
@@ -288,6 +286,27 @@
                         <errorcode>410</errorcode>,
                         others &hellip;
                     </simpara>
+                    <para>
+                        A &HEAD; operation &MAY; return metadata for
+                        the account. If it does it &MUST; return the
+                        same metadata that would be return via a &GET;
+                        operation. The response to this call &MUST;
+                        contain only HTTP headers. As with a &GET;
+                        requests, a <returnvalue>204 (No
+                        Content)</returnvalue> signifies that the
+                        account exists and is valid. A <errorcode>404
+                        (Not Found)</errorcode> signifies that the
+                        account does not exist and a <errorcode>410
+                        (Gone)</errorcode> means that the account has
+                        recently been marked for deletion, is
+                        currently unavailable, and may be
+                        recoverable. Again, services may provide an
+                        addtional operation to recover a recently
+                        removed account. The &HEAD; operation may be
+                        used as a short-hand for &GET; in cases where
+                        the service returns a representation document
+                        but the client is not intersted in it.
+                    </para>
                 </section>
                 <section>
                     <title>Create an Account</title>
