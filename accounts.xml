@@ -201,8 +201,6 @@
                 </para>
                 <section>
                     <title>Get Account</title>
-                    <para>
-                    </para>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
                         <tbody>
@@ -226,6 +224,38 @@
                         <errorcode>410</errorcode>,
                         others &hellip;
                     </simpara>
+                    <para>
+                        A &GET; operation &MAY; return a
+                        representation of the account along with
+                        account metadata. The representation &MAY;
+                        contain information that applies to all of the
+                        resources that are contained in the
+                        account. Additonally, the representation may
+                        contain a list of top level resources. The
+                        actual format of the representation is service
+                        specific. Additonally, services may opt to not
+                        provide a representation at all.
+                    </para>
+                    <para>
+                        If a service returns an account representation
+                        it should return either a response code of
+                        <returnvalue>200 (Okay)</returnvalue> or
+                        <returnvalue>203 (Non-Authoritave
+                        Information)</returnvalue> if the request is
+                        cached. If a service does not return a
+                        representation, then it &MUST; return a
+                        <returnvalue>204 (No Content)</returnvalue>.
+                        Generally, a response code in the 200s
+                        significes that the account exists and is
+                        valid. A <errorcode>404 (Not
+                        Found)</errorcode> signifies that the account
+                        does not exist and a <errorcode>410
+                        (Gone)</errorcode> means that the account has
+                        recently been marked for deletion, is currently
+                        unavailable, and may be recoverable. Services
+                        may provide an addtional operation to recover
+                        a recently removed account.
+                    </para>
                 </section>
                 <section>
                     <title>Get Account Metadata</title>
