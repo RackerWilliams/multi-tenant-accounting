@@ -154,12 +154,12 @@
         <section>
             <title>Admin API</title>
             <para>
-                A <emphasis role="italic">service api</emphasis> is an
+                A <emphasis role="italic">service API</emphasis> is an
                 API that's made available to most clients &mdash; it
                 is the public API most users consume.  In contrast, an
                 <emphasis role="italic">admin api</emphasis> is an
-                implementation of the service API with additoinal
-                calls to allow for the management and maintence of the
+                implementation of the service API with additional
+                calls to allow for the management and maintenance of the
                 service. The admin API is consumed strictly by
                 operators. Calls who's effect span multiple accounts
                 should be placed in an admin API.  Admin APIs
@@ -176,7 +176,7 @@
                     not necessarily dictate that two separate
                     implementations of the API be written. Service
                     teams may opt to write a single implementation of
-                    the API and expose it via two spearate endpoints:
+                    the API and expose it via two separate endpoints:
                     a public endpoint and admin endpoint.  In the
                     public endpoint, a reverse proxy filters may be
                     employed to cull admin calls before they reach the
@@ -199,7 +199,7 @@
                 <para>
                     The following operations &MUST; be implemented by
                     OpenStack services and &MUST; be made available
-                    via the admin API.  At their desgretion, service
+                    via the admin API.  At their discretion, service
                     operators &MAY; provide public access to &GET; and
                     &HEAD; operations via the service API.  The &PUT;
                     and &DELETE; calls, however, should be accessible
@@ -236,30 +236,30 @@
                         account metadata. The representation &MAY;
                         contain information that applies to all of the
                         resources that are contained in the
-                        account. Additonally, the representation may
+                        account. Additionally, the representation may
                         contain a list of top level resources. The
                         actual format of the representation is service
-                        specific. Additonally, services may opt to not
+                        specific. Additionally, services may opt to not
                         provide a representation at all.
                     </para>
                     <para>
                         If a service returns an account representation
                         it should return either a response code of
                         <returnvalue>200 (Okay)</returnvalue> or
-                        <returnvalue>203 (Non-Authoritave
+                        <returnvalue>203 (Non-Authoritative
                         Information)</returnvalue> if the request is
                         cached. If a service does not return a
                         representation, then it &MUST; return a
                         <returnvalue>204 (No Content)</returnvalue>.
                         Generally, a response code in the 200s
-                        significes that the account exists and is
+                        signifies that the account exists and is
                         valid. A <errorcode>404 (Not
                         Found)</errorcode> signifies that the account
                         does not exist and a <errorcode>410
                         (Gone)</errorcode> means that the account has
                         recently been marked for deletion, is currently
                         unavailable, and may be recoverable. Services
-                        may provide an addtional operation to recover
+                        may provide an additional operation to recover
                         a recently removed account.
                     </para>
                 </section>
@@ -301,11 +301,11 @@
                         recently been marked for deletion, is
                         currently unavailable, and may be
                         recoverable. Again, services may provide an
-                        addtional operation to recover a recently
+                        additional operation to recover a recently
                         removed account. The &HEAD; operation may be
                         used as a short-hand for &GET; in cases where
                         the service returns a representation document
-                        but the client is not intersted in it.
+                        but the client is not interested in it.
                     </para>
                 </section>
                 <section>
