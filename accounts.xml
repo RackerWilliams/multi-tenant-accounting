@@ -39,6 +39,8 @@
         <!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
         <!ENTITY MUST   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis>'>
         <!ENTITY MUST_NOT   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis>'>
+        <!ENTITY SHOULD_NOT '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis>'>
+
 ]>
 
 <article version="5.0"
@@ -152,6 +154,27 @@
         <section>
             <title>Admin API</title>
             <para>
+                OpenStack services &MUST; implement an <emphasis
+                role="italic">admin API</emphasis>. Typically, these
+                APIs are super-sets of the public API with additional
+                management calls. In other words, they are
+                implementations of the public API with additional
+                calls to allow for the management and maintenance of
+                the service. Calls who's effect span multiple accounts
+                should be placed in an admin API. Admin APIs
+                &SHOULD_NOT; be exposed via public endpoints and
+                &SHOULD; have tighter security constraints than those
+                of the public APIs. It is recommended that admin API
+                users and public API users authenticate against
+                separate authentication systems.
+            </para>
+            <para>
+                In the following sections, we propose a set of calls
+                that &MUST; be implemented by admin APIs in OpenStack
+                and an optional set that &SHOULD; be
+                implemented. Together these calls allow for a simple
+                and consistent admin API for the management of
+                accounts in OpenStack.
             </para>
             <section>
                 <title>Required Operations</title>
