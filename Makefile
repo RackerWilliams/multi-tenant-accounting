@@ -15,7 +15,7 @@ CP= jars/saxon.jar:jars/saxon65.jar:jars/xslthl-2.0.2.jar
 ##  Images
 ##
 SVGS=
-STATIC_SVGS=
+STATIC_SVGS=images/AccountModel4.svg
 STATIC_SAMPLES=
 
 ##
