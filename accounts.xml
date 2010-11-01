@@ -273,11 +273,55 @@
                     <title>Move a Resource</title>
                     <para>
                     </para>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&POST;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                <td colspan="3">Move a Resource</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>,
+                        <returnvalue>202</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
                 </section>
                 <section>
-                    <title>Merge/Rename an Account</title>
+                    <title>Move all Resources</title>
                     <para>
                     </para>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&POST;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                <td colspan="3">Moves all resources into a destination account.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>,
+                        <returnvalue>202</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
                 </section>
                 <section>
                     <title>Ensuring Consistency</title>
