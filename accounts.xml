@@ -168,6 +168,22 @@
                 users and public API users authenticate against
                 separate authentication systems.
             </para>
+            <note>
+                <para>
+                    The requirement for an additional admin API does
+                    not necessarily dictate that two separate
+                    implementations of the API be written. Service
+                    teams may opt to write a single implementation of
+                    the API and expose it via two spearate endpoints:
+                    a public endpoint and admin endpoint.  In the
+                    public endpoint, a reverse proxy filters may be
+                    employed to cull admin calls before they reach the
+                    service implementation.  A different
+                    authentication component may also be used at each
+                    endpoint to interact with separate authentication
+                    systems.
+                </para>
+            </note>
             <para>
                 In the following sections, we propose a set of calls
                 that &MUST; be implemented by admin APIs in OpenStack
