@@ -179,6 +179,11 @@
             <section>
                 <title>Required Operations</title>
                 <para>
+                    The following operations &MUST; be implemented by
+                    OpenStack services and &MUST; be made available
+                    via the admin API.  At their desgretion, service
+                    operators &MAY; provide public access to a subset
+                    of these calls via the public API.
                 </para>
                 <section>
                     <title>Get Account</title>
