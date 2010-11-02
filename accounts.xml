@@ -203,7 +203,7 @@
                     via the admin API.  At their discretion, service
                     operators &MAY; provide public access to &GET; and
                     &HEAD; operations via the service API.  The &PUT;
-                    and &DELETE; calls, however, should be accessible
+                    and &DELETE; calls, however, &SHOULD; be accessible
                     strictly from the admin API.
                 </para>
                 <section>
