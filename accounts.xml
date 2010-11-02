@@ -232,16 +232,14 @@
                         others &hellip;
                     </simpara>
                     <para>
-                        A &GET; operation &MAY; return a
-                        representation of the account along with
-                        account metadata. The representation &MAY;
-                        contain information that applies to all of the
-                        resources that are contained in the
-                        account. Additionally, the representation may
-                        contain a list of top level resources. The
-                        actual format of the representation is service
-                        specific. Additionally, services may opt to not
-                        provide a representation at all.
+                        Services are not required to provide a
+                        representation of an account on a &GET;
+                        request. If a representation is retured, it
+                        &SHOULD; provide information about the account
+                        along with account metadata. Additionally, the
+                        representation &MAY; contain a list of top
+                        level account resources. The actual format of
+                        the representation is service specific.
                     </para>
                     <para>
                         If a service returns an account representation
