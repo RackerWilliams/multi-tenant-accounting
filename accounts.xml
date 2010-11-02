@@ -332,7 +332,62 @@
                         others &hellip;
                     </simpara>
                     <para>
+                        A &PUT; operation is used to create a new
+                        account.  Note that the operator is in
+                        complete control as to the value of the
+                        account id. An OpenStack service should make
+                        no assumptions about the value other than it
+                        is a properlly URL encoded string and that it
+                        may contain any character other than the path
+                        seperator <literal>/</literal>.  The following
+                        are examples of account ids.
                     </para>
+                    <example>
+                        <title>Example accounts IDs</title>
+                        <informaltable rules="all">
+                            <thead>
+                                <tr>
+                                    <td colspan="1">
+                                        <parameter>accountId</parameter>
+                                    </td>
+                                    <td colspan="4">Sample Encoded URL</td>
+                                    <td colspan="1">Valid</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">12345</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/12345/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">Bob's Account</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/Bob's%20Account/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">∑∞∆∏</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/%E2%88%91%E2%88%9E%E2%88%86%E2%88%8F/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel:sub:acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1:sub2:acct3/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel\sub\acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1\sub2\acct3/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel/sub/acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1/sub2/acct3/widgets</td>
+                                    <td colspan="1">No!</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                    </example>
                 </section>
                 <section>
                     <title>Remove an Account</title>
