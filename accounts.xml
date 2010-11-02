@@ -287,11 +287,11 @@
                     </simpara>
                     <para>
                         A &HEAD; operation &MAY; return metadata for
-                        the account. If it does it &MUST; return the
-                        same metadata that would be return via a &GET;
-                        operation. The response to this call &MUST;
-                        contain only HTTP headers. As with a &GET;
-                        requests, a <returnvalue>204 (No
+                        an account. If it does, it &MUST; return the
+                        same metadata that would be returned via a
+                        &GET; operation. The response to this call
+                        &MUST; only contain HTTP headers. As with
+                        &GET; requests, a <returnvalue>204 (No
                         Content)</returnvalue> signifies that the
                         account exists and is valid. A <errorcode>404
                         (Not Found)</errorcode> signifies that the
