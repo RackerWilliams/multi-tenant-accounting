@@ -448,8 +448,8 @@
                         </phrase>
                         In this case, an operator may create a new
                         account and assign it to a tier with a single
-                        &PUT;. The operation may also be used to
-                        update the tier by performing additional
+                        &PUT; request. The operation may also be used
+                        to update the tier by performing additional
                         &PUT;s on the account. On success, a
                         <returnvalue>201 (Created)</returnvalue>
                         should be returned when the account is created
