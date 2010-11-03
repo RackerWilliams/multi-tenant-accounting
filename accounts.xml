@@ -563,7 +563,7 @@
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
  Content-Type: application/xml; charset=UTF-8
- Etag: 08c8c8b21e336fb492aa3995d4d7bc8dc6b6fa32
+ Etag: "08c8c8b21e336fb492aa3995d4d7bc8dc6b6fa32"
                             </literallayout>
                             <programlisting language="xml">
 <xi:include href="samples/move2.xml" parse="text"/>
@@ -575,7 +575,7 @@
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
  Content-Type: application/xml; charset=UTF-8
- Etag: "08c8c8b21e336fb492aa3995d4d7bc8dc6b6fa32"
+ Etag: "e6a92ec2fe5fba022c31c32c97ea455cee4b2736"
                             </literallayout>
                             <programlisting language="xml">
 <xi:include href="samples/move.xml" parse="text"/>
@@ -616,6 +616,18 @@
                             <errorcode>412</errorcode>,
                             others &hellip;
                         </simpara>
+                        <example>
+                            <title>Conditional Move Request</title>
+                            <literallayout class="monospaced">
+ POST /v1.0/17776666/action/move?dest=176625343 HTTP/1.1
+ Host: service.openstack.com
+ If-Match: "e6a92ec2fe5fba022c31c32c97ea455cee4b2736"
+ Content-Type: application/xml
+                            </literallayout>
+                            <programlisting language="xml">
+<xi:include href="samples/move.xml" parse="text"/>
+                            </programlisting>
+                        </example>
                     </section>
                 </section>
             </section>
