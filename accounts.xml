@@ -362,6 +362,16 @@
                                 <literal>/</literal>.
                             </para>
                         </listitem>
+                        <listitem>
+                            <para>
+                                The UTF-8 string will be properly
+                                encoded in the request URL according
+                                to the encoding rules defined in RFC
+                                1738 <xref
+                                linkend="rfc1738"/>. Services &MAY;
+                                reject improperly encoded URLs.
+                            </para>
+                        </listitem>
                     </orderedlist>
                     <para>
                         An OpenStack service should make no
@@ -663,4 +673,41 @@
             </qandaentry>
         </qandaset>
     </section>
+    <bibliography>
+        <title>References</title>
+        <biblioentry xml:id="rfc1738">
+            <author>
+                <personname>
+                    <surname>Berners-Lee</surname>
+                    <othername role="fi">T</othername>
+                </personname>
+                <affiliation>
+                    <orgname>CERN</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <surname>Masinter</surname>
+                    <othername role="fi">L</othername>
+                </personname>
+                <affiliation>
+                    <orgname>Xerox Corporation</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <surname>McCahill</surname>
+                    <othername role="fi">M</othername>
+                </personname>
+                <affiliation>
+                    <orgname>University of Minnesota</orgname>
+                </affiliation>
+            </author>
+            <title>Uniform Resource Locators (URL)</title>
+            <releaseinfo>
+                <link
+                    xlink:href="http://tools.ietf.org/html/rfc1738">http://tools.ietf.org/html/rfc1738</link>
+            </releaseinfo>
+        </biblioentry>
+    </bibliography>
 </article>
