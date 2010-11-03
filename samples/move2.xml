@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<move xmlns="http://service.openstack.com/actions"
+      dest="176625343">
+    <states>
+        <state resource="widgets/12345"
+               tag="2672275fe0c456fb671e4f417fb2f9892c7573ba"/>
+        <state resource="widgets/6789"
+               tag="68c27e7a055a85dbf5d4fef4b064c60d2f061960"/>
+        <state resource="widgets/77889"
+               tag="4a72b818871a1ff89efd34ef9604ca2f04f2cb8a"/>
+    </states>
+</move>
