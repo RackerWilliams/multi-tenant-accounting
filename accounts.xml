@@ -569,6 +569,12 @@
 <xi:include href="samples/move2.xml" parse="text"/>
                             </programlisting>
                         </example>
+                        <para>
+                            In manual mode the operator is responsible for
+                            making sure that that resources in a
+                            correct state.  The move action simply
+                            documents tags form each resource.
+                        </para>
                         <example>
                             <title>Get Move Action Response (Simple)</title>
                             <literallayout class="monospaced">
@@ -581,6 +587,15 @@
 <xi:include href="samples/move.xml" parse="text"/>
                             </programlisting>
                         </example>
+                        <para>
+                            The operator takes less of a role in
+                            simple mode.  Here, the tags are
+                            consolidated into a simple tag.  If any
+                            resource is in a bad state a
+                            <errorcode>409 (Conflict)</errorcode>
+                            is returned. Services &SHOULD; support
+                            simple mode.
+                        </para>
                     </section>
                     <section>
                         <title>Conditional Move</title>
