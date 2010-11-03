@@ -206,7 +206,7 @@
                     and &DELETE; calls, however, &SHOULD; be accessible
                     strictly from the admin API.
                 </para>
-                <section>
+                <section xml:id="getAccountSection">
                     <title>Get Account</title>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
@@ -322,9 +322,8 @@
                     </informaltable>
                     <simpara>
                         &CODES;
-                        <returnvalue>204</returnvalue>,
-                        <returnvalue>200</returnvalue>,
-                        <returnvalue>203</returnvalue>
+                        <returnvalue>201</returnvalue>,
+                        <returnvalue>202</returnvalue>,
                     </simpara>
                     <simpara>
                         &ERROR_CODES;
@@ -436,7 +435,47 @@
                         </informaltable>
                     </example>
                     <para>
+                        If a service provides a representation for an
+                        account the representation &SHOULD; be
+                        included as part of a &PUT; request. As
+                        described in <xref
+                        linkend="getAccountSection"/>, the optional
+                        representation &SHOULD; contain information
+                        about the account along with account metadata.
+                        <phrase annotations="moveToGet">
+                        One possible use of this feature is to place
+                        an account at a certain service level tier.
+                        </phrase>
+                        In this case, an operator may create a new
+                        account and assign it to a tier with a single
+                        &PUT;. The operation may also be used to
+                        update the tier by performing additional
+                        &PUT;s on the account. On success, a
+                        <returnvalue>201 (Created)</returnvalue>
+                        should be returned when the account is created
+                        and a <returnvalue>202
+                        (Accepted)</returnvalue> should be returned
+                        when the account is modified.  In cases where
+                        the account representation offers a list of
+                        account resources, the &PUT; operation
+                        &SHOULD_NOT; be used to add resources to or
+                        remove resources from the account.  Services
+                        &MUST; ensure that &PUT; requests are
+                        idempotent.  In cases where accounts do not
+                        contain a representation, or where the
+                        representation is not updatable, a
+                        <errorcode>409 (Conflict)</errorcode> may be
+                        returned to indicate that an account with the
+                        given ID has already been created and may not
+                        be updated.
                     </para>
+                    <annotation xml:id="moveToGet">
+                        <title>Move this to Get Section?</title>
+                        <para>
+                            Should this example move to <xref
+                            linkend="getAccountSection"/>.
+                        </para>
+                    </annotation>
                 </section>
                 <section>
                     <title>Remove an Account</title>
