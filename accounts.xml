@@ -474,9 +474,15 @@
                     </example>
                     <example>
                         <title>Account ID Sample WADL definition</title>
-                        <programlisting language="xml">
+                        <programlistingco>
+                            <areaspec>
+                                <area xml:id="account.pattern" units="linecolumn" coords="17 42"/>
+                                <area xml:id="account.param" units="linecolumn" coords="25 70"/>
+                            </areaspec>
+                            <programlisting language="xml">
 <xi:include href="samples/account.wadl" parse="text"/>
-                        </programlisting>
+                            </programlisting>
+                        </programlistingco>
                     </example>
                 </section>
                 <section>
