@@ -338,17 +338,18 @@
                         the &PUT; request and it &SHOULD; match the
                         representation retured by &GET;.  One possible
                         use of an account representation is to keep
-                        track of an account's service level tier.  In
-                        this case, an operator may create a new
-                        account and assign it to a tier with a single
-                        &PUT; request. The operator may also update
-                        the tier by performing additional &PUT;s on
-                        the account. On success, a <returnvalue>201
-                        (Created)</returnvalue> should be returned
-                        when the account is created and a
-                        <returnvalue>202 (Accepted)</returnvalue>
-                        should be returned when the account is
-                        modified.
+                        track of an account's tier in cases where the
+                        service offers different levels of performance
+                        at different tiers.  Here, an operator may
+                        create a new account and assign it to a tier
+                        with a single &PUT; request. The operator may
+                        also update an account's tier by performing
+                        additional &PUT;s on the account. On success,
+                        a <returnvalue>201 (Created)</returnvalue>
+                        should be returned when the account is created
+                        and a <returnvalue>202
+                        (Accepted)</returnvalue> should be returned
+                        when the account is modified.
                     </para>
                     <para>
                         In cases where the account representation
@@ -412,11 +413,13 @@
                         assumptions about the account ID other than
                         those listed above. As a result, services
                         &MUST; set aside 255 character units for
-                        storing account IDs. Services should consider
+                        storing account IDs. Services should also consider
                         long account IDs when imposing limits on the
-                        size of a request URL. The following are
-                        examples of account IDs and their encoded
-                        URLs.
+                        size of a request URL.
+                    </para>
+                    <para>
+                        The following are examples of account IDs and
+                        their encoded URLs:
                     </para>
                     <example>
                         <title>Example accounts IDs</title>
