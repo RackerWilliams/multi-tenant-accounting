@@ -587,8 +587,6 @@
                 </para>
                 <section>
                     <title>Move a Resource</title>
-                    <para>
-                    </para>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
                         <tbody>
@@ -602,8 +600,8 @@
                     </informaltable>
                     <simpara>
                         &CODES;
-                        <returnvalue>204</returnvalue>,
-                        <returnvalue>202</returnvalue>
+                        <returnvalue>303</returnvalue>,
+                        <returnvalue>301</returnvalue>
                     </simpara>
                     <simpara>
                         &ERROR_CODES;
@@ -611,6 +609,40 @@
                         <errorcode>410</errorcode>,
                         others &hellip;
                     </simpara>
+                    <para>
+                        A &POST; operation on a move action URL of a
+                        resource
+                        (&hellip;/path/to/resource/action/move) causes
+                        the resource specified by the path to move to
+                        the account in the <parameter>dest</parameter>
+                        URL parameter.  The operation does not require
+                        a content body. On success, the service should
+                        return a <returnvalue>303 (See
+                        Other)</returnvalue> with a
+                        <token>Location</token> header pointing to the
+                        resource's new home.  The service should
+                        respond with a <errorcode>404 (Not
+                        Found)</errorcode> if the resource does not
+                        exist or <errorcode>410 (Gone)</errorcode> if
+                        the resource has been recently
+                        deleted. Additionally, a service may respond
+                        with a <returnvalue>301 (Moved
+                        Permanently)</returnvalue> if the resource has
+                        already been moved.  In this case, the
+                        <token>Location</token> header should point
+                        to  the move action URL in the new resource
+                        location.
+                    </para>
+                    <para>
+                        After the resource has been moved a service
+                        may respond with a <returnvalue>301 (Moved
+                        Permanently)</returnvalue> to a &GET; request
+                        on the resource itself
+                        (&hellip;/path/to/resource).  Here, the
+                        response must contain a
+                        <token>Location</token> header with an URL
+                        pointing to the resource's new location.
+                    </para>
                 </section>
                 <section>
                     <title>Move all Resources</title>
