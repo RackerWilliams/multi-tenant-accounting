@@ -571,6 +571,19 @@
             <section>
                 <title>Optional Operations</title>
                 <para>
+                    The following operations &SHOULD; be implemented
+                    by OpenStack services, but it is not a strict
+                    requirment that all services support them.  The
+                    operatins involve moving resources from one
+                    account to another.  There are a number of
+                    usecases where such moves are nessessary, and the
+                    operations below allow these usecases to be
+                    implemented in an efficient manner. If a service
+                    team should decide not to include support for the
+                    following calls it is recommended that, at the
+                    very least, a manual operation process exists that
+                    provides the ability to transfer resources between
+                    accounts.
                 </para>
                 <section>
                     <title>Move a Resource</title>
@@ -629,6 +642,26 @@
                 <section>
                     <title>Ensuring Consistency</title>
                     <para>
+                        The move operations above assume that
+                        resources are logically, and not physically,
+                        organized between accounts. In this case, move
+                        operations are virtual and can occur without
+                        the need to ensure consistency between
+                        resources as they move from one account to
+                        another.  There may be cases, however, where
+                        accounts provide a physical organization of
+                        resources.  For example, accounts may be
+                        placed in different service teirs and the
+                        teirs may be distributed among different sets
+                        of nodes in a cluster. Here, resources must be
+                        physically moved from one node to another, and
+                        operators must be assured that a resource is
+                        in a consistent state before it can be
+                        moved. The operations below allow for
+                        consistent moves by utilizing a new resource,
+                        a <emphasis>move action</emphasis>, that
+                        serves as a controller responsible for
+                        ensuring consistency as resources are moved.
                     </para>
                     <section>
                         <title>Get a Move Action</title>
