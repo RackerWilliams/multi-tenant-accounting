@@ -573,17 +573,17 @@
                 <para>
                     The following operations &SHOULD; be implemented
                     by OpenStack services, but it is not a strict
-                    requirement that all services support them.  The
+                    requirement that services support them.  The
                     operations involve moving resources from one
-                    account to another.  There are a number of
-                    use cases where such moves are necessary, and the
+                    account to another.  There are a number of use
+                    cases where such moves are necessary, and the
                     operations below allow these use cases to be
                     implemented in an efficient manner. If a service
                     team should decide not to include support for the
                     following calls it is recommended that, at the
-                    very least, a manual operation process exists that
-                    provides the ability to transfer resources between
-                    accounts.
+                    very least, a manual operational process exists
+                    that provides the ability to transfer resources
+                    between accounts.
                 </para>
                 <section>
                     <title>Move a Resource</title>
