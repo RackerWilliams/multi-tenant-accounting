@@ -523,8 +523,6 @@
                 </section>
                 <section>
                     <title>Remove an Account</title>
-                    <para>
-                    </para>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
                         <tbody>
@@ -546,6 +544,28 @@
                         <errorcode>410</errorcode>,
                         others &hellip;
                     </simpara>
+                    <para>
+                        A &DELETE; operation is used to remove an
+                        account. An account's resources &SHOULD; be
+                        deleted after an account has been
+                        removed. That said, resources &SHOULD; remain
+                        recoverable and in a deleted state for a
+                        period of time before they are actually
+                        removed.  This prevents data loss in cases
+                        involving human error. The &DELETE; operation
+                        &SHOULD; always return asynchronously. On
+                        success it should return a <returnvalue>204
+                        (No Content)</returnvalue>. The operation
+                        should return a <errorcode>404 (Not
+                        Found)</errorcode> if the account does not
+                        exist and a <errorcode>410 (Gone)</errorcode>
+                        if the account has already been marked for
+                        deletion and is still in a recoverable
+                        state. Services may provide an additional
+                        operation to recover accounts that have been
+                        marked for deletion but have not yet been
+                        removed.
+                    </para>
                 </section>
             </section>
             <section>
