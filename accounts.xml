@@ -472,6 +472,12 @@
                             </tbody>
                         </informaltable>
                     </example>
+                    <example>
+                        <title>Account ID Sample WADL definition</title>
+                        <programlisting language="xml">
+<xi:include href="samples/account.wadl" parse="text"/>
+                        </programlisting>
+                    </example>
                 </section>
                 <section>
                     <title>Remove an Account</title>
