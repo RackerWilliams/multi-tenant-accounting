@@ -472,8 +472,15 @@
                             </tbody>
                         </informaltable>
                     </example>
+                    <para>
+                        The restrictions placed on account IDs
+                        &SHOULD; be described in the admin API
+                        documentation and &MAY; also be documented in
+                        the admin WADL. An example WADL is illustrated
+                        below.
+                    </para>
                     <example>
-                        <title>Account ID Sample WADL definition</title>
+                        <title>Account ID Sample WADL Definition</title>
                         <programlistingco>
                             <areaspec>
                                 <area xml:id="account.pattern" units="linecolumn" coords="17 42"/>
@@ -484,6 +491,35 @@
                             </programlisting>
                         </programlistingco>
                     </example>
+                    <calloutlist>
+                        <callout arearefs="account.pattern">
+                            <para>
+                                Note that the account ID pattern is
+                                very simple. Account IDs must contain
+                                one or more characters not matching
+                                the path seperator:
+                                <literal>/</literal>.
+                            </para>
+                        </callout>
+                        <callout arearefs="account.param">
+                            <para>
+                                Here we define
+                                <parameter>accountId</parameter> as a
+                                URI template parameter of type
+                                <type>AccountID</type>. The fact that
+                                we define the <type>AccountID</type>
+                                type so that it restricts the use of
+                                the path separator character is
+                                redundent in this case because
+                                template parameters do not allow
+                                values with path separators.  None the
+                                less, we define the
+                                <type>AccountID</type> type in order
+                                to be explicit and in case the type is
+                                used elsewhere.
+                            </para>
+                        </callout>
+                    </calloutlist>
                 </section>
                 <section>
                     <title>Remove an Account</title>
