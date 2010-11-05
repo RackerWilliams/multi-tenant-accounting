@@ -925,10 +925,21 @@
             <qandaentry>
                 <question>
                     <para>
+                        Why go through the trouble of obtaining a move
+                        action?  Why not simply fail a move request if
+                        a resource is in an unmoveable state?
                     </para>
                 </question>
                 <answer>
                     <para>
+                        If a service can detect an unmoveable state
+                        then it should certainly fail the move
+                        operation.  That said, wheather or not a
+                        resource is moveable depends on the specific
+                        deployment.  For example, an operator may have
+                        a rule that accounts are only allowed to have
+                        100 resources.  The move action request allows
+                        operators to enforce the rule on moves.
                     </para>
                 </answer>
             </qandaentry>
