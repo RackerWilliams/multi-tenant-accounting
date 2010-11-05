@@ -54,7 +54,7 @@
          class="specification"
          status="draft">
     <info>
-        <title>Multi-Tenancy in OpenStack</title>
+        <title>Multi-Tenant Accounting in OpenStack</title>
         <authorgroup>
             <author>
                 <personname>
@@ -86,35 +86,15 @@
                 the concept of multi-tenancy. A common approach to
                 organizing resources by 'tenant' across services is
                 needed to be able to correlate usage tracking,
-                auditing, authorization, etc... And within each
+                auditing, authorization, and so forth. Within each
                 multi-tenant service, the ability to identify each
-                tenant's resources (for various reasons such as
-                security, accounting, isolation, etc…) is also
-                key. However, the definition of a 'tenant' will vary
-                by operator and by deployment. This blueprint
-                therefore proposes creating a lightweight standard for
-                service developers to implement tenancy and resource
-                grouping without a-priori knowledge of billing and
-                accounting processes specific to the operator of an
-                OpenStack deployment.
-            </para>
-            <para>
-                The purpose of this blueprint is to define a standard
-                method of organizing resources in OpenStack. Resource
-                organization is important because most cloud service
-                deployments are multi-tenant. Building multi-tenant
-                services is complicated and often involves knowledge
-                of business processes that vary from one organization
-                to another. In this blueprint, we propose a method of
-                organizing resources that allows multi-tenancy to be
-                implemented on top of OpenStack services. This
-                approach will lower barriers to service developers by
-                allowing them to develop services without a-priori
-                knowledge of billing and accounting processes of the
-                organization in which the services are
-                deployed. Likewise, organization will be given
-                flexibility in the manner in which they deploy and
-                offer OpenStack services.
+                tenant's resources is also key. However, the
+                definition of a 'tenant' will vary by operator and by
+                deployment. This blueprint therefore proposes creating
+                a lightweight standard for service developers to
+                implement tenancy and resource grouping without
+                a-priori knowledge of billing and accounting processes
+                specific to the operator of an OpenStack deployment.
             </para>
         </abstract>
         <keywordset>
@@ -126,30 +106,40 @@
     <section>
         <title>Rationale and Goals</title>
         <para>
+            Building multi-tenant services is complicated and often
+            involves knowledge of business processes that vary from
+            one organization to another. In this blueprint, we propose
+            a method of organizing resources that allows multi-tenancy
+            to be implemented on top of OpenStack services. This
+            approach will lower barriers to service developers by
+            allowing them to develop services without a-priori
+            knowledge of billing and accounting processes of the
+            organization in which the services are deployed. Likewise,
+            organization will be given flexibility in the manner in
+            which they deploy and offer OpenStack services.
         </para>
     </section>
     <section>
         <title>Specification Overview</title>
-        <para>
-        </para>
-        <figure xml:id="both">
-            <title>Multi-Tenancy Overview</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata align="center" scale="65" format="svg"
-                               fileref="images/AccountModel5.svg"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
         <section>
             <title>Accounts and Tenants</title>
             <para>
+                
             </para>
         </section>
         <section>
             <title>Account Lifecycle</title>
             <para>
             </para>
+            <figure xml:id="both">
+                <title>Multi-Tenancy Overview</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" scale="65" format="svg"
+                                   fileref="images/AccountModel5.svg"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
         </section>
         <section>
             <title>Admin API</title>
