@@ -788,29 +788,65 @@
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
  Content-Type: application/xml; charset=UTF-8
- Etag: "e6a92ec2fe5fba022c31c32c97ea455cee4b2736"
+ ETag: "d8a5179a69519b32de12cad41705edd694790ffc"
                             </literallayout>
                             <programlisting language="xml">
 <xi:include href="samples/move.xml" parse="text"/>
                             </programlisting>
                         </example>
+                        <para>
+                            The response to the move action request is
+                            service specific.  The purpose of the
+                            response is to allow operators to confirm
+                            resource state before a move is requested.
+                            Thus the response &MUST; contain
+                            information about the state of resources
+                            and accounts that are affected by the
+                            move. An entity tag (<token>Etag</token>)
+                            header &MUST; be included in the response.
+                            The header &MUST; contain a quoted opaque
+                            string that uniquely identifies the
+                            response.  In the example above we use a
+                            SHA1 digest of the response text.  There
+                            may be cases where the number of resources
+                            affected by the move is very large.  In
+                            these cases, the response &SHOULD_NOT;
+                            contain a list of all resources affected,
+                            but rather it &SHOULD; contain a tag that
+                            uniquely identifies the current state of
+                            the affected resources.  The response
+                            &SHOULD; also contain metadata that is
+                            common to all resources affected by the
+                            move.  This is illustrated in the example
+                            below.
+                        </para>
                         <example>
                             <title>Get Move Action Response (Tagged)</title>
                             <literallayout class="monospaced">
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
  Content-Type: application/xml; charset=UTF-8
- Etag: "50d935685fc4d998e202f44694371875d4dfebb7"
+ ETag: "50d935685fc4d998e202f44694371875d4dfebb7"
                             </literallayout>
                             <programlisting language="xml">
 <xi:include href="samples/move-tagged.xml" parse="text"/>
                             </programlisting>
                         </example>
                         <para>
-                            If any resource is in a bad state a
-                            <errorcode>409 (Conflict)</errorcode> is
-                            returned. Services &SHOULD; support simple
-                            mode.
+                            Note that the tag in the content of the
+                            message is different from the one supplied
+                            via the <token>ETag</token>. The
+                            <token>ETag</token> uniquely identifies
+                            the move action response.  The tag in the
+                            content identifies the state of all of the
+                            resources affected.  Conceptually, one can
+                            think of it as the sum of all of the
+                            <token>ETag</token>s of the affected
+                            resources.  It is also important to note
+                            that a change in the tag  will cause the
+                            <token>ETag</token> to change.
+                        </para>
+                        <para>
                         </para>
                     </section>
                     <section>
@@ -852,7 +888,7 @@
                             <literallayout class="monospaced">
  POST /v1.0/17776666/action/move?dest=176625343 HTTP/1.1
  Host: service.openstack.com
- If-Match: "e6a92ec2fe5fba022c31c32c97ea455cee4b2736"
+ If-Match: "d8a5179a69519b32de12cad41705edd694790ffc"
  Content-Type: application/xml
                             </literallayout>
                         </example>
