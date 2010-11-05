@@ -131,14 +131,43 @@
         <section>
             <title>Account Lifecycle</title>
             <para>
-                Service de
+                From the perspective of a service developer an account
+                ID is simply an arbitrary string that is used to
+                organize resources.  We propose that a string be used
+                as a top level resource collection after the version
+                identifier:
+                (/<parameter>version</parameter>/<parameter>accountId</parameter>).
+                Placing the account ID as a top level container
+                dictates that all client requests are automatically
+                associated with an account.  Requests to create
+                accounts or move resources between accounts are
+                received via an admin API which is described in
+                detail in the next section.  Developers are
+                responsible for ensuring that all usage metrics
+                contain the account ID string.
+            </para>
+            <para>
+                Service operators, on the other hand, are resposible
+                for organizing resources around tenants for the
+                purposes of billing and authorization.  Operators use
+                account IDs to help organize service resources. They
+                provide thier tenants with API endpoints that contain
+                the account ID embeded in the URI. The operator can
+                then collect usage logs from the service and aggregate
+                necessary usage metrics in order to charge back usage
+                to the tenant.
+            </para>
+            <para>
+                The relationship between tenants, operators, and
+                servies are illustrated in detail in the figure
+                below.
             </para>
             <figure xml:id="both">
                 <title>Multi-Tenancy Overview</title>
                 <mediaobject>
                     <imageobject>
                         <imagedata align="center" scale="65" format="svg"
-                                   fileref="images/AccountModel5.svg"/>
+                                   fileref="images/AccountModel6.png"/>
                     </imageobject>
                 </mediaobject>
             </figure>
