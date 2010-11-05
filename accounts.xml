@@ -765,25 +765,7 @@
                             </literallayout>
                         </example>
                         <example>
-                            <title>Get Move Action Response (Manual)</title>
-                            <literallayout class="monospaced">
- HTTP/1.1 200 Okay
- Date: Mon, 12 Nov 2010 15:55:01 GMT
- Content-Type: application/xml; charset=UTF-8
- Etag: "08c8c8b21e336fb492aa3995d4d7bc8dc6b6fa32"
-                            </literallayout>
-                            <programlisting language="xml">
-<xi:include href="samples/move2.xml" parse="text"/>
-                            </programlisting>
-                        </example>
-                        <para>
-                            In manual mode the operator is responsible for
-                            making sure that that resources in a
-                            correct state.  The move action simply
-                            documents tags form each resource.
-                        </para>
-                        <example>
-                            <title>Get Move Action Response (Simple)</title>
+                            <title>Get Move Action Response</title>
                             <literallayout class="monospaced">
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
@@ -795,13 +777,10 @@
                             </programlisting>
                         </example>
                         <para>
-                            The operator takes less of a role in
-                            simple mode.  Here, the tags are
-                            consolidated into a simple tag.  If any
-                            resource is in a bad state a
-                            <errorcode>409 (Conflict)</errorcode>
-                            is returned. Services &SHOULD; support
-                            simple mode.
+                            If any resource is in a bad state a
+                            <errorcode>409 (Conflict)</errorcode> is
+                            returned. Services &SHOULD; support simple
+                            mode.
                         </para>
                     </section>
                     <section>
