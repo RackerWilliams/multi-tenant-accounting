@@ -709,7 +709,7 @@
                     <para>
                         The move operations above assume that
                         resources are logically, and not physically,
-                        organized between accounts. In this case, move
+                        organized into accounts. In this case, move
                         operations are virtual and can occur without
                         the need to ensure consistency between
                         resources as they move from one account to
@@ -724,9 +724,7 @@
                         in a consistent state before it can be
                         moved. The operations below allow for
                         consistent moves by utilizing a <emphasis>move
-                        action</emphasis> that serves as a controller
-                        responsible for ensuring consistency as
-                        resources are moved.
+                        action</emphasis> resource.
                     </para>
                     <section>
                         <title>Get a Move Action</title>
