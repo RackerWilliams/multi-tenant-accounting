@@ -646,8 +646,6 @@
                 </section>
                 <section>
                     <title>Move all Resources</title>
-                    <para>
-                    </para>
                     <informaltable rules="all">
                         &LONG_URI_REFHEAD;
                         <tbody>
@@ -670,6 +668,37 @@
                         <errorcode>410</errorcode>,
                         others &hellip;
                     </simpara>
+                    <para>
+                        A &POST; operation on a move action URL of an
+                        account
+                        (/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move)
+                        causes all resources in that account to move
+                        to the account specified by the
+                        <parameter>dest</parameter> URL parameter.
+                        This operation is very similar to the
+                        operation described above, except that it
+                        moves all resources in the account instead of
+                        a single resource.  It is important to note
+                        that the account &MUST_NOT; be deleted
+                        automatically after resources have been
+                        moved. Instead, an operator must explicitly
+                        issue a &DELETE; on the account.  On success,
+                        the call should return a <returnvalue>303 (See
+                        Other)</returnvalue> with a
+                        <token>Location</token> header pointing to the
+                        destination account.  The service should
+                        respond with a <errorcode>404 (Not
+                        Found)</errorcode> if the account does not
+                        exist or <errorcode>410 (Gone)</errorcode> if
+                        the account has been recently deleted.  A
+                        service may respond with a <returnvalue>301
+                        (Moved Permanently)</returnvalue> on a &GET;
+                        request on a previously moved resource.  The
+                        response must contain a
+                        <token>Location</token> header with an URL
+                        pointing to the resource's location in the new
+                        account.
+                    </para>
                 </section>
                 <section>
                     <title>Ensuring Consistency</title>
