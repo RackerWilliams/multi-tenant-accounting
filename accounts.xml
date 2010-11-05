@@ -754,7 +754,6 @@
                             &ERROR_CODES;
                             <errorcode>404</errorcode>,
                             <errorcode>410</errorcode>,
-                            <errorcode>409</errorcode>,
                             others &hellip;
                         </simpara>
                         <para>
@@ -847,6 +846,17 @@
                             <token>ETag</token> to change.
                         </para>
                         <para>
+                            On success, a request for a move action
+                            should return a response code of
+                            <returnvalue>200 (Okay)</returnvalue> or
+                            <returnvalue>203 (Non-Authoritative
+                            Information)</returnvalue> if the request
+                            is cached. Services should respond with a
+                            <errorcode>404 (Not Found)</errorcode> if
+                            the account or resources does not exist. A
+                            return code of <errorcode>410
+                            (Gone)</errorcode> signifies that the
+                            account has been recently deleted.
                         </para>
                     </section>
                     <section>
