@@ -723,15 +723,13 @@
                         operators must be assured that a resource is
                         in a consistent state before it can be
                         moved. The operations below allow for
-                        consistent moves by utilizing a new resource,
-                        a <emphasis>move action</emphasis>, that
-                        serves as a controller responsible for
-                        ensuring consistency as resources are moved.
+                        consistent moves by utilizing a <emphasis>move
+                        action</emphasis> that serves as a controller
+                        responsible for ensuring consistency as
+                        resources are moved.
                     </para>
                     <section>
                         <title>Get a Move Action</title>
-                        <para>
-                        </para>
                         <informaltable rules="all">
                             &LONG_URI_REFHEAD;
                             <tbody>
@@ -761,6 +759,24 @@
                             <errorcode>409</errorcode>,
                             others &hellip;
                         </simpara>
+                        <para>
+                            A move action acts as a controller that
+                            helps coordinate states as resources are
+                            moved from one account to another. Move
+                            actions must be acquired in cases where
+                            consistency between moves must be
+                            maintained. An operator acquires a move
+                            action by performing a &GET; on the move
+                            action URL of either a specific resource
+                            (&hellip;/path/to/resource/action/move) or
+                            of an entire account
+                            (/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move).
+                            The destination account of the move must
+                            be specified in the
+                            <parameter>dest</parameter> URL
+                            parameter. An example request is
+                            illustrated below.
+                        </para>
                         <example>
                             <title>Get Move Action Request</title>
                             <literallayout class="monospaced">
@@ -769,7 +785,7 @@
                             </literallayout>
                         </example>
                         <example>
-                            <title>Get Move Action Response</title>
+                            <title>Get Move Action Response (Full)</title>
                             <literallayout class="monospaced">
  HTTP/1.1 200 Okay
  Date: Mon, 12 Nov 2010 15:55:01 GMT
@@ -778,6 +794,18 @@
                             </literallayout>
                             <programlisting language="xml">
 <xi:include href="samples/move.xml" parse="text"/>
+                            </programlisting>
+                        </example>
+                        <example>
+                            <title>Get Move Action Response (Tagged)</title>
+                            <literallayout class="monospaced">
+ HTTP/1.1 200 Okay
+ Date: Mon, 12 Nov 2010 15:55:01 GMT
+ Content-Type: application/xml; charset=UTF-8
+ Etag: "50d935685fc4d998e202f44694371875d4dfebb7"
+                            </literallayout>
+                            <programlisting language="xml">
+<xi:include href="samples/move-tagged.xml" parse="text"/>
                             </programlisting>
                         </example>
                         <para>
@@ -829,9 +857,6 @@
  If-Match: "e6a92ec2fe5fba022c31c32c97ea455cee4b2736"
  Content-Type: application/xml
                             </literallayout>
-                            <programlisting language="xml">
-<xi:include href="samples/move.xml" parse="text"/>
-                            </programlisting>
                         </example>
                     </section>
                 </section>
