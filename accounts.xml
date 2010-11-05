@@ -861,8 +861,6 @@
                     </section>
                     <section>
                         <title>Conditional Move</title>
-                        <para>
-                        </para>
                         <informaltable rules="all">
                             &LONG_URI_REFHEAD;
                             <tbody>
@@ -889,10 +887,17 @@
                             &ERROR_CODES;
                             <errorcode>404</errorcode>,
                             <errorcode>410</errorcode>,
-                            <errorcode>409</errorcode>,
                             <errorcode>412</errorcode>,
                             others &hellip;
                         </simpara>
+                        <para>
+                            Conditional moves work exactly as
+                            unconditional move request except that an
+                            <token>If-Match</token> header should be
+                            included containing the
+                            <token>ETag</token> of the move action.
+                            An example request is illustrated below.
+                        </para>
                         <example>
                             <title>Conditional Move Request</title>
                             <literallayout class="monospaced">
@@ -902,6 +907,13 @@
  Content-Type: application/xml
                             </literallayout>
                         </example>
+                        <para>
+                            Here the move should fail with a
+                            <errorcode>412 (Precondition
+                            Failed)</errorcode> if any change in state
+                            has occured between &GET; request and the
+                            &POST; request.
+                        </para>
                     </section>
                 </section>
             </section>
