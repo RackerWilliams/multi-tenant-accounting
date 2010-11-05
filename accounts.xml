@@ -635,13 +635,15 @@
                     </para>
                     <para>
                         After the resource has been moved a service
-                        may respond with a <returnvalue>301 (Moved
-                        Permanently)</returnvalue> to a &GET; request
-                        on the resource itself
-                        (&hellip;/path/to/resource).  Here, the
-                        response must contain a
-                        <token>Location</token> header with an URL
-                        pointing to the resource's new location.
+                        may respond with either a <errorcode>404 (Not
+                        Found)</errorcode> or a <returnvalue>301
+                        (Moved Permanently)</returnvalue> to a &GET;
+                        request on the resource itself
+                        (&hellip;/path/to/resource). The
+                        <returnvalue>301</returnvalue> response must
+                        contain a <token>Location</token> header with
+                        an URL pointing to the resource's new
+                        location.
                     </para>
                 </section>
                 <section>
@@ -691,13 +693,15 @@
                         Found)</errorcode> if the account does not
                         exist or <errorcode>410 (Gone)</errorcode> if
                         the account has been recently deleted.  A
-                        service may respond with a <returnvalue>301
-                        (Moved Permanently)</returnvalue> on a &GET;
-                        request on a previously moved resource.  The
-                        response must contain a
-                        <token>Location</token> header with an URL
-                        pointing to the resource's location in the new
-                        account.
+                        service may respond with either a
+                        <errorcode>404 (Not Found)</errorcode> or a
+                        <returnvalue>301 (Moved
+                        Permanently)</returnvalue> on a &GET; request
+                        on a previously moved resource.  The
+                        <returnvalue>301</returnvalue> response
+                        must contain a <token>Location</token> header
+                        with an URL pointing to the resource's
+                        location in the new account.
                     </para>
                 </section>
                 <section>
