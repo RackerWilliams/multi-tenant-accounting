@@ -762,8 +762,8 @@
                             helps coordinate states as resources are
                             moved from one account to another. Move
                             actions must be acquired in cases where
-                            consistency between moves must be
-                            maintained. An operator acquires a move
+                            operators wish to ensure consistency
+                            between moves. An operator acquires a move
                             action by performing a &GET; on the move
                             action URL of either a specific resource
                             (&hellip;/path/to/resource/action/move) or
