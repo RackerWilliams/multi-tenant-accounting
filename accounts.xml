@@ -108,28 +108,30 @@
         <para>
             Building multi-tenant services is complicated and often
             involves knowledge of business processes that vary from
-            one organization to another. In this blueprint, we propose
-            a method of organizing resources that allows multi-tenancy
-            to be implemented on top of OpenStack services. This
-            approach will lower barriers to service developers by
-            allowing them to develop services without a-priori
-            knowledge of billing and accounting processes of the
-            organization in which the services are deployed. Likewise,
-            organization will be given flexibility in the manner in
-            which they deploy and offer OpenStack services.
+            one organization to another. We propose a method of
+            organizing resources that allows multi-tenancy to be
+            implemented on top of OpenStack services. By doing so we
+            introduce a sepearation of concern between operators and
+            service developers. Service developers offer managment to
+            accounts.  From their perspective accounts are simply
+            collection of resources. Operators manage tenants that may
+            be associated with one or more accounts. This approach
+            lowers barriers to service developers by allowing them
+            to develop services without a-priori knowledge of billing
+            and accounting processes of the organization in which the
+            services are deployed. Likewise, organizations will be
+            given flexibility in the manner in which they deploy and
+            offer OpenStack services.  In this blueprint, we define a
+            simple account admin API that facillitates and
+            standardizes on this approach.
         </para>
     </section>
     <section>
         <title>Specification Overview</title>
         <section>
-            <title>Accounts and Tenants</title>
-            <para>
-                
-            </para>
-        </section>
-        <section>
             <title>Account Lifecycle</title>
             <para>
+                Service de
             </para>
             <figure xml:id="both">
                 <title>Multi-Tenancy Overview</title>
