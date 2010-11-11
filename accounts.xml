@@ -111,8 +111,8 @@
             one organization to another. We propose a method of
             organizing resources that allows multi-tenancy to be
             implemented on top of OpenStack services. By doing so we
-            introduce a sepearation of concern between operators and
-            service developers. Service developers offer managment to
+            introduce a separation of concern between operators and
+            service developers. Service developers offer management to
             accounts.  From their perspective accounts are simply
             collection of resources. Operators manage tenants that may
             be associated with one or more accounts. This approach
@@ -122,7 +122,7 @@
             services are deployed. Likewise, organizations will be
             given flexibility in the manner in which they deploy and
             offer OpenStack services.  In this blueprint, we define a
-            simple account admin API that facillitates and
+            simple account admin API that facilitates and
             standardizes on this approach.
         </para>
     </section>
@@ -147,19 +147,19 @@
                 contain the account ID string.
             </para>
             <para>
-                Service operators, on the other hand, are resposible
+                Service operators, on the other hand, are responsible
                 for organizing resources around tenants for the
                 purposes of billing and authorization.  Operators use
                 account IDs to help organize service resources. They
-                provide thier tenants with API endpoints that contain
-                the account ID embeded in the URI. The operator can
+                provide their tenants with API endpoints that contain
+                the account ID embedded in the URI. The operator can
                 then collect usage logs from the service and aggregate
                 necessary usage metrics in order to charge back usage
                 to the tenant.
             </para>
             <para>
                 The relationship between tenants, operators, and
-                servies are illustrated in detail in the figure
+                services are illustrated in detail in the figure
                 below.
             </para>
             <figure xml:id="both">
@@ -932,7 +932,7 @@
                             Here the move should fail with a
                             <errorcode>412 (Precondition
                             Failed)</errorcode> if any change in state
-                            has occured between &GET; request and the
+                            has occurred between &GET; request and the
                             &POST; request.
                         </para>
                     </section>
@@ -948,15 +948,15 @@
                     <para>
                         Why go through the trouble of obtaining a move
                         action?  Why not simply fail a move request if
-                        a resource is in an unmoveable state?
+                        a resource is in an unmovable state?
                     </para>
                 </question>
                 <answer>
                     <para>
-                        If a service can detect an unmoveable state
+                        If a service can detect an unmovable state
                         then it should certainly fail the move
-                        operation.  That said, wheather or not a
-                        resource is moveable depends on the specific
+                        operation.  That said, whether or not a
+                        resource is movable depends on the specific
                         deployment.  For example, an operator may have
                         a rule that accounts are only allowed to have
                         100 resources.  The move action request allows
