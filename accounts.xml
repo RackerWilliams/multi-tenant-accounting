@@ -136,7 +136,7 @@
                 organize resources.  We propose that a string be used
                 as a top level resource collection after the version
                 identifier:
-                (/<parameter>version</parameter>/<parameter>accountId</parameter>).
+                /<parameter>version</parameter>/<parameter>accountId</parameter>.
                 Placing the account ID as a top level container
                 dictates that all client requests are automatically
                 associated with an account.  Requests to create
@@ -158,7 +158,7 @@
                 to the tenant.
             </para>
             <para>
-                The relationship between tenants, operators, and
+                The relationships among tenants, operators, and
                 services are illustrated in detail in the figure
                 below.
             </para>
@@ -182,12 +182,12 @@
                 API</emphasis> is an implementation of the service API
                 with additional calls to allow for the management and
                 maintenance of the service. The admin API is consumed
-                strictly by operators. Calls who's effect span
+                strictly by operators. Calls whose effects span
                 multiple accounts should be placed in an admin API.
                 Admin APIs &SHOULD_NOT; be exposed via public
                 endpoints and &SHOULD; have tighter security
-                constraints than those of service APIs. It is
-                recommended that admin API users and service API users
+                constraints than those of service APIs. We
+                recommend that admin API users and service API users
                 authenticate against separate authentication
                 systems. All OpenStack services &MUST; implement an
                 admin API.
@@ -199,7 +199,7 @@
                     implementations of the API be written. Service
                     teams may opt to write a single implementation of
                     the API and expose it via two separate endpoints:
-                    a public endpoint and admin endpoint.  In the
+                    a public endpoint and an admin endpoint.  In the
                     public endpoint, reverse proxy filters may be
                     employed to cull admin calls before they reach the
                     service implementation.  A different
@@ -225,7 +225,7 @@
                     operators &MAY; provide public access to &GET; and
                     &HEAD; operations via the service API.  The &PUT;
                     and &DELETE; calls, however, &SHOULD; be accessible
-                    strictly from the admin API.
+                    from the admin API only.
                 </para>
                 <section xml:id="getAccountSection">
                     <title>Get Account</title>
@@ -236,7 +236,7 @@
                                 <td colspan="1">&GET;
                                 </td>
                                 <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Get Account</td>
+                                <td colspan="3">Get Account.</td>
                             </tr>
                         </tbody>
                     </informaltable>
@@ -260,10 +260,10 @@
                         along with account metadata. Additionally, the
                         representation &MAY; contain a list of top
                         level account resources. The actual format of
-                        the representation is service specific.
+                        the representation is service-specific.
                     </para>
                     <para>
-                        If a service returns an account representation
+                        If a service returns an account representation,
                         it should return either a response code of
                         <returnvalue>200 (Okay)</returnvalue> or
                         <returnvalue>203 (Non-Authoritative
@@ -292,7 +292,7 @@
                                 <td colspan="1">&HEAD;
                                 </td>
                                 <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Get Account Metadata</td>
+                                <td colspan="3">Get Account Metadata.</td>
                             </tr>
                         </tbody>
                     </informaltable>
@@ -323,7 +323,7 @@
                         recoverable. Again, services may provide an
                         additional operation to recover a recently
                         removed account. The &HEAD; operation may be
-                        used as a short-hand for &GET; in cases where
+                        used as a shorthand for &GET; in cases where
                         the service returns a representation document
                         but the client is not interested in it.
                     </para>
@@ -354,7 +354,7 @@
                     <para>
                         A &PUT; operation can be used to create or
                         (optionally) modify an account.  If a service
-                        provides a representation for an account the
+                        provides a representation for an account, the
                         representation &SHOULD; be included as part of
                         the &PUT; request and it &SHOULD; match the
                         representation returned by &GET;.  One possible
@@ -533,8 +533,8 @@
                                 the path separator character is
                                 redundant in this case because
                                 template parameters do not allow
-                                values with path separators.  None the
-                                less, we define the
+                                values with path separators.
+                                Nonetheless, we define the
                                 <type>AccountID</type> type in order
                                 to be explicit and in case the type is
                                 used elsewhere.
@@ -778,14 +778,14 @@
                             others &hellip;
                         </simpara>
                         <para>
-                            A move action acts as a controller that
-                            helps coordinate states as resources are
-                            moved from one account to another. Move
-                            actions must be acquired in cases where
-                            operators wish to ensure consistency
-                            between moves. An operator acquires a move
-                            action by performing a &GET; on the move
-                            action URL of either a specific resource
+                            A move action helps coordinate states as
+                            resources are moved from one account to
+                            another. Move actions must be acquired in
+                            cases where operators wish to ensure
+                            consistency between moves. An operator
+                            acquires a move action by performing a
+                            &GET; on the move action URL of either a
+                            specific resource
                             (&hellip;/path/to/resource/action/move) or
                             of an entire account
                             (/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move).
@@ -816,7 +816,7 @@
                         </example>
                         <para>
                             The response to the move action request is
-                            service specific.  The purpose of the
+                            service-specific.  The purpose of the
                             response is to allow operators to confirm
                             resource state before a move is requested.
                             Thus the response &MUST; contain
@@ -889,7 +889,7 @@
                                     <td colspan="1">&POST;
                                     </td>
                                     <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
-                                    <td colspan="3">Perform a conditional move operation on a resource..</td>
+                                    <td colspan="3">Perform a conditional move operation on a resource.</td>
                                 </tr>
                                 <tr>
                                     <td colspan="1">&POST;
@@ -912,8 +912,8 @@
                             others &hellip;
                         </simpara>
                         <para>
-                            Conditional moves work exactly as
-                            unconditional move request except that an
+                            Conditional moves work exactly like
+                            unconditional move requests except that an
                             <token>If-Match</token> header should be
                             included containing the
                             <token>ETag</token> of the move action.
