@@ -2,18 +2,18 @@
 
 <move xmlns="http://service.openstack.com/actions"
       dest="176625343">
-    <accounts>
-        <account id="17776666">
+    <tenants>
+        <tenant id="17776666">
             .
             .
             .
-        </account>
-        <account id="176625343">
+        </tenant>
+        <tenant id="176625343">
             .
             .
             .
-        </account>
-    </accounts>
+        </tenant>
+    </tenants>
     <resources tag="f152f9be36f69f0b162b32fe2beed8c61b99e69b" 
                size="10000" total-usage="2.5TB" />
 </move>

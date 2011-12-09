@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE article [
-        <!-- Some useful entities borrowed from HTML -->
-        <!ENTITY ndash  "&#x2013;">
-        <!ENTITY mdash  "&#x2014;">
-        <!ENTITY hellip "&#x2026;">
-
-        <!-- Useful for describing APIs -->
-        <!ENTITY GET    '<command xmlns="http://docbook.org/ns/docbook">GET</command>'>
-        <!ENTITY HEAD   '<command xmlns="http://docbook.org/ns/docbook">HEAD</command>'>
-        <!ENTITY PUT    '<command xmlns="http://docbook.org/ns/docbook">PUT</command>'>
-        <!ENTITY POST   '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
-        <!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
-
-        <!ENTITY CODES       'Normal Response Code(s):'>
-        <!ENTITY ERROR_CODES 'Error Response Code(s):'>
-
-        <!ENTITY LONG_URI_REFHEAD '
+<!-- Some useful entities borrowed from HTML --><!ENTITY ndash "&#x2013;">
+<!ENTITY mdash "&#x2014;">
+<!ENTITY hellip "&#x2026;">
+<!-- Useful for describing APIs --><!ENTITY GET '<command xmlns="http://docbook.org/ns/docbook">GET</command>'>
+<!ENTITY HEAD '<command xmlns="http://docbook.org/ns/docbook">HEAD</command>'>
+<!ENTITY PUT '<command xmlns="http://docbook.org/ns/docbook">PUT</command>'>
+<!ENTITY POST '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
+<!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
+<!ENTITY CODES "Normal Response Code(s):">
+<!ENTITY ERROR_CODES "Error Response Code(s):">
+<!ENTITY LONG_URI_REFHEAD '
           <thead xmlns="http://docbook.org/ns/docbook">
             <tr>
               <td colspan="1">Verb</td>
@@ -24,7 +18,7 @@
               <td colspan="3">Description</td>
             </tr>
           </thead>'>
-        <!ENTITY URI_REFHEAD '
+<!ENTITY URI_REFHEAD '
           <thead xmlns="http://docbook.org/ns/docbook">
             <tr>
               <td colspan="1">Verb</td>
@@ -32,29 +26,15 @@
               <td colspan="4">Description</td>
             </tr>
           </thead>'>
-
-
-        <!-- Useful for specs -->
-        <!ENTITY MAY    '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>'>
-        <!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
-        <!ENTITY MUST   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis>'>
-        <!ENTITY MUST_NOT   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis>'>
-        <!ENTITY SHOULD_NOT '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis>'>
-
+<!-- Useful for specs --><!ENTITY MAY '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>'>
+<!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
+<!ENTITY MUST '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis>'>
+<!ENTITY MUST_NOT '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis>'>
+<!ENTITY SHOULD_NOT '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis>'>
 ]>
-
-<article version="5.0"
-         xmlns="http://docbook.org/ns/docbook"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         xmlns:xi="http://www.w3.org/2001/XInclude"
-         xmlns:svg="http://www.w3.org/2000/svg"
-         xmlns:m="http://www.w3.org/1998/Math/MathML"
-         xmlns:html="http://www.w3.org/1999/xhtml"
-         xmlns:db="http://docbook.org/ns/docbook"
-         class="specification"
-         status="draft">
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:db="http://docbook.org/ns/docbook" version="5.0" class="specification" status="draft">
     <info>
-        <title>Multi-Tenant Accounting in OpenStack</title>
+        <title>Multi-Tenant Tenanting in OpenStack</title>
         <authorgroup>
             <author>
                 <personname>
@@ -88,12 +68,20 @@
                 needed to be able to correlate usage tracking,
                 auditing, authorization, and so forth. Within each
                 multi-tenant service, the ability to identify each
-                tenant's resources is also key. However, the
-                definition of a 'tenant' will vary by operator and by
-                deployment. This blueprint therefore proposes creating
-                a lightweight standard for service developers to
+                tenant's resources is also key.
+            </para>
+            <para>
+              The exact definition of a tenant and what it maps to in an
+              operator's business model is unpredictable. Some operators will
+              map tenants to customes, others to tenants (whatever tenant
+              means for them), and others yet may map them to a cost center,
+              and environment (production, staging, test, dev), etc...
+              
+                This document explains the rationale behind the
+                lightweight standard for service developers adopted by OpenStack to
                 implement tenancy and resource grouping without
-                a-priori knowledge of billing and accounting processes
+                a-priori knowledge of billing, accountinging, and customer
+                models and processes
                 specific to the operator of an OpenStack deployment.
             </para>
         </abstract>
@@ -113,49 +101,56 @@
             implemented on top of OpenStack services. By doing so we
             introduce a separation of concern between operators and
             service developers. Service developers offer management to
-            accounts.  From their perspective accounts are simply
+            tenants.  From their perspective tenants are simply
             collection of resources. Operators manage tenants that may
-            be associated with one or more accounts. This approach
+            be associated with one or more accounts, customers, departments, or
+            whateve their business model looks like. This approach
             lowers barriers to service developers by allowing them
             to develop services without a-priori knowledge of billing
             and accounting processes of the organization in which the
             services are deployed. Likewise, organizations will be
             given flexibility in the manner in which they deploy and
             offer OpenStack services.  In this blueprint, we define a
-            simple account admin API that facilitates and
+            simple tenant admin API that facilitates and
             standardizes on this approach.
         </para>
     </section>
     <section>
         <title>Specification Overview</title>
         <section>
-            <title>Account Lifecycle</title>
+            <title>Tenant Lifecycle</title>
             <para>
-                From the perspective of a service developer an account
+                From the perspective of a service developer a tenant
                 ID is simply an arbitrary string that is used to
                 organize resources.  We propose that a string be used
                 as a top level resource collection after the version
                 identifier:
-                /<parameter>version</parameter>/<parameter>accountId</parameter>.
-                Placing the account ID as a top level container
+                /<parameter>version</parameter>/<parameter>tenantId</parameter>.
+                Placing the tenant ID as a top level container
                 dictates that all client requests are automatically
-                associated with an account.  Requests to create
-                accounts or move resources between accounts are
+                associated with a tenant.  Requests to create
+                tenants or move resources between tenants are
                 received via an admin API which is described in
                 detail in the next section.  Developers are
                 responsible for ensuring that all usage metrics
-                contain the account ID string.
+                contain the tenant ID string.
             </para>
             <para>
                 Service operators, on the other hand, are responsible
                 for organizing resources around tenants for the
                 purposes of billing and authorization.  Operators use
-                account IDs to help organize service resources. They
+                tenant IDs to help organize service resources. The then expose
+                service endpoints to their users and a method of tracking the
+                tenant ID (Example, they may
                 provide their tenants with API endpoints that contain
-                the account ID embedded in the URI. The operator can
+                the tenant ID embedded in the URI or, as an alternative, may
+                track the tenant ID through the
+                use of an authentication mechanism like tokens from OpenStack's
+                Identity Service, called Keystone). The operator can
                 then collect usage logs from the service and aggregate
                 necessary usage metrics in order to charge back usage
-                to the tenant.
+                for the tenant to the appropriate entity (customer, account,
+                department, cost center, etc...).
             </para>
             <para>
                 The relationships among tenants, operators, and
@@ -166,8 +161,7 @@
                 <title>Multi-Tenancy Overview</title>
                 <mediaobject>
                     <imageobject>
-                        <imagedata align="center" scale="65" format="svg"
-                                   fileref="images/AccountModel7.svg"/>
+                        <imagedata align="center" scale="65" format="svg" fileref="images/TenantModel8.svg"/>
                     </imageobject>
                 </mediaobject>
             </figure>
@@ -176,20 +170,20 @@
             <title>Admin API</title>
             <para>
                 A <emphasis role="italic">service API</emphasis> is an
-                API that's made available to most clients &mdash; in
+                API that's made available to most clients — in
                 most cases it is the public API that users consume.
                 In contrast, an <emphasis role="italic">admin
                 API</emphasis> is an implementation of the service API
                 with additional calls to allow for the management and
                 maintenance of the service. The admin API is consumed
                 strictly by operators. Calls whose effects span
-                multiple accounts should be placed in an admin API.
-                Admin APIs &SHOULD_NOT; be exposed via public
-                endpoints and &SHOULD; have tighter security
+                multiple tenants should be placed in an admin API.
+                Admin APIs <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis> be exposed via public
+                endpoints and <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> have tighter security
                 constraints than those of service APIs. We
                 recommend that admin API users and service API users
                 authenticate against separate authentication
-                systems. All OpenStack services &MUST; implement an
+                systems. All OpenStack services <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> implement an
                 admin API.
             </para>
             <note>
@@ -199,7 +193,9 @@
                     implementations of the API be written. Service
                     teams may opt to write a single implementation of
                     the API and expose it via two separate endpoints:
-                    a public endpoint and an admin endpoint.  In the
+                    a public endpoint and an admin endpoint.  Alternatively,
+                    they may write one endpoint that exposes the administrative
+                    API calls to appropriately authorized clients. In the
                     public endpoint, reverse proxy filters may be
                     employed to cull admin calls before they reach the
                     service implementation.  A different
@@ -210,197 +206,218 @@
             </note>
             <para>
                 In the following sections, we propose a set of calls
-                that &MUST; be implemented by admin APIs in OpenStack
-                and an optional set that &SHOULD; be
+                that <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> be implemented by admin APIs in OpenStack
+                and an optional set that <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be
                 implemented. Together these calls allow for a simple
                 and consistent admin API for the management of
-                accounts in OpenStack.
+                tenants in OpenStack.
             </para>
             <section>
                 <title>Required Operations</title>
                 <para>
-                    The following operations &MUST; be implemented by
-                    OpenStack services and &MUST; be made available
+                    The following operations <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> be implemented by
+                    OpenStack services and <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> be made available
                     via the admin API.  At their discretion, service
-                    operators &MAY; provide public access to &GET; and
-                    &HEAD; operations via the service API.  The &PUT;
-                    and &DELETE; calls, however, &SHOULD; be accessible
+                    operators <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis> provide public access to <command xmlns="http://docbook.org/ns/docbook">GET</command> and
+                    <command xmlns="http://docbook.org/ns/docbook">HEAD</command> operations via the service API.  The <command xmlns="http://docbook.org/ns/docbook">PUT</command>
+                    and <command xmlns="http://docbook.org/ns/docbook">DELETE</command> calls, however, <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be accessible
                     from the admin API only.
                 </para>
-                <section xml:id="getAccountSection">
-                    <title>Get Account</title>
+                <section xml:id="getTenantSection">
+                    <title>Get Tenant</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&GET;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">GET</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Get Account.</td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Get Tenant.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>200</returnvalue>,
                         <returnvalue>203</returnvalue>,
                         <returnvalue>204</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>404</errorcode>,
                         <errorcode>410</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
                         Services are not required to provide a
-                        representation of an account on a &GET;
+                        representation of a tenant on a <command xmlns="http://docbook.org/ns/docbook">GET</command>
                         request. If a representation is returned, it
-                        &SHOULD; provide information about the account
-                        along with account metadata. Additionally, the
-                        representation &MAY; contain a list of top
-                        level account resources. The actual format of
+                        <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> provide information about the tenant
+                        along with tenant metadata. Additionally, the
+                        representation <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis> contain a list of top
+                        level tenant resources. The actual format of
                         the representation is service-specific.
                     </para>
                     <para>
-                        If a service returns an account representation,
+                        If a service returns a tenant representation,
                         it should return either a response code of
                         <returnvalue>200 (Okay)</returnvalue> or
                         <returnvalue>203 (Non-Authoritative
                         Information)</returnvalue> if the request is
                         cached. If a service does not return a
-                        representation, then it &MUST; return a
+                        representation, then it <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> return a
                         <returnvalue>204 (No Content)</returnvalue>.
                         Generally, a response code in the 200s
-                        signifies that the account exists and is
+                        signifies that the tenant exists and is
                         valid. A <errorcode>404 (Not
-                        Found)</errorcode> signifies that the account
+                        Found)</errorcode> signifies that the tenant
                         does not exist and a <errorcode>410
-                        (Gone)</errorcode> means that the account has
+                        (Gone)</errorcode> means that the tenant has
                         recently been marked for deletion, is currently
                         unavailable, and may be recoverable. Services
                         may provide an additional operation to recover
-                        a recently removed account.
+                        a recently removed tenant.
                     </para>
                 </section>
                 <section>
-                    <title>Get Account Metadata</title>
+                    <title>Get Tenant Metadata</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&HEAD;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">HEAD</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Get Account Metadata.</td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Get Tenant Metadata.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>204</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>404</errorcode>,
                         <errorcode>410</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
-                        A &HEAD; operation &MAY; return metadata for
-                        an account. If it does, it &MUST; return the
+                        A <command xmlns="http://docbook.org/ns/docbook">HEAD</command> operation <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis> return metadata for
+                        a tenant. If it does, it <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> return the
                         same metadata that would be returned via a
-                        &GET; operation. The response to this call
-                        &MUST; only contain HTTP headers. As with
-                        &GET; requests, a <returnvalue>204 (No
+                        <command xmlns="http://docbook.org/ns/docbook">GET</command> operation. The response to this call
+                        <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> only contain HTTP headers. As with
+                        <command xmlns="http://docbook.org/ns/docbook">GET</command> requests, a <returnvalue>204 (No
                         Content)</returnvalue> signifies that the
-                        account exists and is valid. A <errorcode>404
+                        tenant exists and is valid. A <errorcode>404
                         (Not Found)</errorcode> signifies that the
-                        account does not exist and a <errorcode>410
-                        (Gone)</errorcode> means that the account has
+                        tenant does not exist and a <errorcode>410
+                        (Gone)</errorcode> means that the tenant has
                         recently been marked for deletion, is
                         currently unavailable, and may be
                         recoverable. Again, services may provide an
                         additional operation to recover a recently
-                        removed account. The &HEAD; operation may be
-                        used as a shorthand for &GET; in cases where
+                        removed tenant. The <command xmlns="http://docbook.org/ns/docbook">HEAD</command> operation may be
+                        used as a shorthand for <command xmlns="http://docbook.org/ns/docbook">GET</command> in cases where
                         the service returns a representation document
                         but the client is not interested in it.
                     </para>
                 </section>
                 <section>
-                    <title>Create an Account</title>
+                    <title>Create a tenant</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&PUT;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">PUT</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Create or Modify an Account.</td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Create or Modify a tenant.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>201</returnvalue>,
                         <returnvalue>202</returnvalue>,
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>409</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
-                        A &PUT; operation can be used to create or
-                        (optionally) modify an account.  If a service
-                        provides a representation for an account, the
-                        representation &SHOULD; be included as part of
-                        the &PUT; request and it &SHOULD; match the
-                        representation returned by &GET;.  One possible
-                        use of an account representation is to keep
-                        track of an account's tier in cases where the
+                        A <command xmlns="http://docbook.org/ns/docbook">PUT</command> operation can be used to create or
+                        (optionally) modify a tenant.  If a service
+                        provides a representation for a tenant, the
+                        representation <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be included as part of
+                        the <command xmlns="http://docbook.org/ns/docbook">PUT</command> request and it <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> match the
+                        representation returned by <command xmlns="http://docbook.org/ns/docbook">GET</command>.  One possible
+                        use of a tenant representation is to keep
+                        track of a tenant's tier in cases where the
                         service offers different levels of performance
                         at different tiers.  Here, an operator may
-                        create a new account and assign it to a tier
-                        with a single &PUT; request. The operator may
-                        also update an account's tier by performing
-                        additional &PUT;s on the account. On success,
+                        create a new tenant and assign it to a tier
+                        with a single <command xmlns="http://docbook.org/ns/docbook">PUT</command> request. The operator may
+                        also update a tenant's tier by performing
+                        additional <command xmlns="http://docbook.org/ns/docbook">PUT</command>s on the tenant. On success,
                         a <returnvalue>201 (Created)</returnvalue>
-                        should be returned when the account is created
+                        should be returned when the tenant is created
                         and a <returnvalue>202
                         (Accepted)</returnvalue> should be returned
-                        when the account is modified.
+                        when the tenant is modified.
                     </para>
                     <para>
-                        In cases where the account representation
-                        offers a list of account resources, the &PUT;
-                        operation &SHOULD_NOT; be used to add
+                        In cases where the tenant representation
+                        offers a list of tenant resources, the <command xmlns="http://docbook.org/ns/docbook">PUT</command>
+                        operation <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis> be used to add
                         resources to or remove resources from the
-                        account.  Services &MUST; ensure that &PUT;
-                        requests are idempotent.  If an account does
+                        tenant.  Services <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> ensure that <command xmlns="http://docbook.org/ns/docbook">PUT</command>
+                        requests are idempotent.  If a tenant does
                         not have a representation, or the
                         representation is not updatable, a
                         <errorcode>409 (Conflict)</errorcode> may be
-                        returned to indicate that an account with the
+                        returned to indicate that a tenant with the
                         given ID has already been created and may not
                         be updated.
                     </para>
                     <para>
-                        Note that a &PUT; operation is used to create
-                        a new account <emphasis>with an account
+                        Note that a <command xmlns="http://docbook.org/ns/docbook">PUT</command> operation is used to create
+                        a new tenant <emphasis>with a tenant
                         ID</emphasis>. This means that the operator is
-                        in complete control of the account ID value
-                        and that the account ID is
+                        in complete control of the tenant ID value
+                        and that the tenant ID is
                         <emphasis>not</emphasis> generated by the
                         service. That said, the following are the
-                        properties of an account ID that service
+                        properties of an tenant ID that service
                         implementers can rely on.
                     </para>
                     <orderedlist>
                         <listitem>
                             <para>
-                                The account ID is a string in the
+                                The tenant ID is a string in the
                                 UTF-8 character set.
                             </para>
                         </listitem>
@@ -423,32 +440,31 @@
                                 The UTF-8 string will be properly
                                 encoded in the request URL according
                                 to the encoding rules defined in RFC
-                                1738 <xref
-                                linkend="rfc1738"/>. Services &MAY;
+                                1738 <xref linkend="rfc1738"/>. Services <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>
                                 reject improperly encoded URLs.
                             </para>
                         </listitem>
                     </orderedlist>
                     <para>
                         An OpenStack service should make no
-                        assumptions about the account ID other than
+                        assumptions about the tenant ID other than
                         those listed above. As a result, services
-                        &MUST; set aside 255 character units for
-                        storing account IDs. Services should also consider
-                        long account IDs when imposing limits on the
+                        <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> set aside 255 character units for
+                        storing tenant IDs. Services should also consider
+                        long tenant IDs when imposing limits on the
                         size of a request URL.
                     </para>
                     <para>
-                        The following are examples of account IDs and
+                        The following are examples of tenant IDs and
                         their encoded URLs:
                     </para>
                     <example>
-                        <title>Example accounts IDs</title>
+                        <title>Example tenant IDs</title>
                         <informaltable rules="all">
                             <thead>
                                 <tr>
                                     <td colspan="1">
-                                        <parameter>accountId</parameter>
+                                        <parameter>tenantId</parameter>
                                     </td>
                                     <td colspan="4">Sample Encoded URL</td>
                                     <td colspan="1">Valid</td>
@@ -461,8 +477,8 @@
                                     <td colspan="1">Yes</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="1">Bob's Account</td>
-                                    <td colspan="4">https://widgets.openstack.com/v1.0/Bob's%20Account/widgets</td>
+                                    <td colspan="1">Bob's Tenant</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/Bob's%20Tenant/widgets</td>
                                     <td colspan="1">Yes</td>
                                 </tr>
                                 <tr>
@@ -486,7 +502,7 @@
                                     <td colspan="1">No, using path separator.</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="1"></td>
+                                    <td colspan="1"/>
                                     <td colspan="4">https://widgets.openstack.com/v1.0//widgets</td>
                                     <td colspan="1">No, empty.</td>
                                 </tr>
@@ -494,48 +510,78 @@
                         </informaltable>
                     </example>
                     <para>
-                        The restrictions placed on account IDs
-                        &SHOULD; be described in the admin API
-                        documentation and &MAY; also be documented in
+                        The restrictions placed on tenant IDs
+                        <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be described in the admin API
+                        documentation and <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis> also be documented in
                         the admin WADL. An example WADL is illustrated
                         below.
                     </para>
                     <example>
-                        <title>Account ID Sample WADL Definition</title>
+                        <title>Tenant ID Sample WADL Definition</title>
                         <programlistingco>
                             <areaspec>
-                                <area xml:id="account.pattern" units="linecolumn" coords="17 42"/>
-                                <area xml:id="account.param" units="linecolumn" coords="25 70"/>
+                                <area xml:id="tenant.pattern" units="linecolumn" coords="17 42"/>
+                                <area xml:id="tenant.param" units="linecolumn" coords="25 70"/>
                             </areaspec>
                             <programlisting language="xml">
-<xi:include href="samples/account.wadl" parse="text"/>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;application xmlns="http://wadl.dev.java.net/2009/02"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:w="http://widget.openstack.com/widget/api/v1.0"&gt;
+
+   &lt;grammars&gt;
+    &lt;schema
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified"
+        targetNamespace="http://widget.openstack.com/widget/api/v1.0"
+        xmlns="http://www.w3.org/2001/XMLSchema"&gt;
+
+        &lt;simpleType name="TenantID"&gt;
+            &lt;restriction base="xsd:string"&gt;
+                &lt;pattern value="[^/]+" /&gt;
+            &lt;/restriction&gt;
+        &lt;/simpleType&gt;
+    &lt;/schema&gt;
+   &lt;/grammars&gt;
+
+   &lt;resources base="https://widget.openstack.com/widget/api/v1.0"&gt;
+    &lt;resource path="{tenantId}"&gt;
+        &lt;param name="tenantId" style="template" type="w:TenantID"/&gt;
+        .
+        .
+        .
+    &lt;/resource&gt;
+   &lt;/resources&gt;
+&lt;/application&gt;
+
                             </programlisting>
                         </programlistingco>
                     </example>
                     <calloutlist>
-                        <callout arearefs="account.pattern">
+                        <callout arearefs="tenant.pattern">
                             <para>
-                                Note that the account ID pattern is
-                                very simple. Account IDs must contain
+                                Note that the tenant ID pattern is
+                                very simple. Tenant IDs must contain
                                 one or more characters not matching
                                 the path separator:
                                 <literal>/</literal>.
                             </para>
                         </callout>
-                        <callout arearefs="account.param">
+                        <callout arearefs="tenant.param">
                             <para>
                                 Here we define
-                                <parameter>accountId</parameter> as a
+                                <parameter>tenantId</parameter> as a
                                 URI template parameter of type
-                                <type>AccountID</type>. The fact that
-                                we define the <type>AccountID</type>
+                                <type>TenantID</type>. The fact that
+                                we define the <type>TenantID</type>
                                 type so that it restricts the use of
                                 the path separator character is
                                 redundant in this case because
                                 template parameters do not allow
                                 values with path separators.
                                 Nonetheless, we define the
-                                <type>AccountID</type> type in order
+                                <type>TenantID</type> type in order
                                 to be explicit and in case the type is
                                 used elsewhere.
                             </para>
@@ -543,47 +589,54 @@
                     </calloutlist>
                 </section>
                 <section>
-                    <title>Remove an Account</title>
+                    <title>Remove a tenant</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&DELETE;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">DELETE</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter></td>
-                                <td colspan="3">Remove an Account.</td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Remove a tenant.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>204</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>404</errorcode>,
                         <errorcode>410</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
-                        A &DELETE; operation is used to remove an
-                        account. An account's resources &SHOULD; be
-                        deleted after an account has been
-                        removed. That said, resources &SHOULD; remain
+                        A <command xmlns="http://docbook.org/ns/docbook">DELETE</command> operation is used to remove a
+                        tenant. a tenant's resources <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be
+                        deleted after a tenant has been
+                        removed. That said, resources <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> remain
                         recoverable and in a deleted state for a
                         period of time before they are actually
                         removed.  This prevents data loss in cases
-                        involving human error. The &DELETE; operation
-                        &SHOULD; always return asynchronously. On
+                        involving human error. The <command xmlns="http://docbook.org/ns/docbook">DELETE</command> operation
+                        <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> always return asynchronously. On
                         success it should return a <returnvalue>204
                         (No Content)</returnvalue>. The operation
                         should return a <errorcode>404 (Not
-                        Found)</errorcode> if the account does not
+                        Found)</errorcode> if the tenant does not
                         exist and a <errorcode>410 (Gone)</errorcode>
-                        if the account has already been marked for
+                        if the tenant has already been marked for
                         deletion and is still in a recoverable
                         state. Services may provide an additional
-                        operation to recover accounts that have been
+                        operation to recover tenants that have been
                         marked for deletion but have not yet been
                         removed.
                     </para>
@@ -592,11 +645,11 @@
             <section>
                 <title>Optional Operations</title>
                 <para>
-                    The following operations &SHOULD; be implemented
+                    The following operations <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> be implemented
                     by OpenStack services, but it is not a strict
                     requirement that services support them.  The
                     operations involve moving resources from one
-                    account to another.  There are a number of use
+                    tenant to another.  There are a number of use
                     cases where such moves are necessary, and the
                     operations below allow these use cases to be
                     implemented in an efficient manner. If a service
@@ -604,38 +657,45 @@
                     following calls it is recommended that, at the
                     very least, a manual operational process exists
                     that provides the ability to transfer resources
-                    between accounts.
+                    between tenants.
                 </para>
                 <section>
                     <title>Move a Resource</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&POST;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">POST</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
                                 <td colspan="3">Move a Resource</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>303</returnvalue>,
                         <returnvalue>301</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>404</errorcode>,
                         <errorcode>410</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
-                        A &POST; operation on a move action URL of a
+                        A <command xmlns="http://docbook.org/ns/docbook">POST</command> operation on a move action URL of a
                         resource
-                        (&hellip;/path/to/resource/action/move) causes
+                        (…/path/to/resource/action/move) causes
                         the resource specified by the path to move to
-                        the account in the <parameter>dest</parameter>
+                        the tenant in the <parameter>dest</parameter>
                         URL parameter.  The operation does not require
                         a content body. On success, the service should
                         return a <returnvalue>303 (See
@@ -658,9 +718,9 @@
                         After the resource has been moved a service
                         may respond with either a <errorcode>404 (Not
                         Found)</errorcode> or a <returnvalue>301
-                        (Moved Permanently)</returnvalue> to a &GET;
+                        (Moved Permanently)</returnvalue> to a <command xmlns="http://docbook.org/ns/docbook">GET</command>
                         request on the resource itself
-                        (&hellip;/path/to/resource). The
+                        (…/path/to/resource). The
                         <returnvalue>301</returnvalue> response must
                         contain a <token>Location</token> header with
                         an URL pointing to the resource's new
@@ -670,59 +730,66 @@
                 <section>
                     <title>Move all Resources</title>
                     <informaltable rules="all">
-                        &LONG_URI_REFHEAD;
+                        
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                         <tbody>
                             <tr>
-                                <td colspan="1">&POST;
+                                <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">POST</command>
                                 </td>
-                                <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
-                                <td colspan="3">Moves all resources into a destination account.</td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                <td colspan="3">Moves all resources into a destination tenant.</td>
                             </tr>
                         </tbody>
                     </informaltable>
                     <simpara>
-                        &CODES;
+                        Normal Response Code(s):
                         <returnvalue>204</returnvalue>,
                         <returnvalue>202</returnvalue>
                     </simpara>
                     <simpara>
-                        &ERROR_CODES;
+                        Error Response Code(s):
                         <errorcode>404</errorcode>,
                         <errorcode>410</errorcode>,
-                        others &hellip;
+                        others …
                     </simpara>
                     <para>
-                        A &POST; operation on a move action URL of an
-                        account
-                        (/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move)
-                        causes all resources in that account to move
-                        to the account specified by the
+                        A <command xmlns="http://docbook.org/ns/docbook">POST</command> operation on a move action URL of a
+                        tenant
+                        (/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move)
+                        causes all resources in that tenant to move
+                        to the tenant specified by the
                         <parameter>dest</parameter> URL parameter.
                         This operation is very similar to the
                         operation described above, except that it
-                        moves all resources in the account instead of
+                        moves all resources in the tenant instead of
                         a single resource.  It is important to note
-                        that the account &MUST_NOT; be deleted
+                        that the tenant <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis> be deleted
                         automatically after resources have been
                         moved. Instead, an operator must explicitly
-                        issue a &DELETE; on the account.  On success,
+                        issue a <command xmlns="http://docbook.org/ns/docbook">DELETE</command> on the tenant.  On success,
                         the call should return a <returnvalue>303 (See
                         Other)</returnvalue> with a
                         <token>Location</token> header pointing to the
-                        destination account.  The service should
+                        destination tenant.  The service should
                         respond with a <errorcode>404 (Not
-                        Found)</errorcode> if the account does not
+                        Found)</errorcode> if the tenant does not
                         exist or <errorcode>410 (Gone)</errorcode> if
-                        the account has been recently deleted.  A
+                        the tenant has been recently deleted.  A
                         service may respond with either a
                         <errorcode>404 (Not Found)</errorcode> or a
                         <returnvalue>301 (Moved
-                        Permanently)</returnvalue> on a &GET; request
+                        Permanently)</returnvalue> on a <command xmlns="http://docbook.org/ns/docbook">GET</command> request
                         on a previously moved resource.  The
                         <returnvalue>301</returnvalue> response
                         must contain a <token>Location</token> header
                         with an URL pointing to the resource's
-                        location in the new account.
+                        location in the new tenant.
                     </para>
                 </section>
                 <section>
@@ -730,13 +797,13 @@
                     <para>
                         The move operations above assume that
                         resources are logically, and not physically,
-                        organized into accounts. In this case, move
+                        organized into tenants. In this case, move
                         operations are virtual and can occur without
                         the need to ensure consistency between
-                        resources as they move from one account to
+                        resources as they move from one tenant to
                         another.  There may be cases, however, where
-                        accounts provide a physical organization of
-                        resources.  For example, accounts may be
+                        tenants provide a physical organization of
+                        resources.  For example, tenants may be
                         placed in different service tiers and the
                         tiers may be distributed among different sets
                         of nodes in a cluster. Here, resources must be
@@ -750,46 +817,53 @@
                     <section>
                         <title>Get a Move Action</title>
                         <informaltable rules="all">
-                            &LONG_URI_REFHEAD;
+                            
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="1">&GET;
+                                    <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">GET</command>
                                     </td>
-                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
                                     <td colspan="3">Get resource move action.</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="1">&GET;
+                                    <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">GET</command>
                                     </td>
-                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
                                     <td colspan="3">Get all resource move action.</td>
                                 </tr>
                             </tbody>
                         </informaltable>
                         <simpara>
-                            &CODES;
+                            Normal Response Code(s):
                             <returnvalue>200</returnvalue>,
                             <returnvalue>203</returnvalue>
                         </simpara>
                         <simpara>
-                            &ERROR_CODES;
+                            Error Response Code(s):
                             <errorcode>404</errorcode>,
                             <errorcode>410</errorcode>,
-                            others &hellip;
+                            others …
                         </simpara>
                         <para>
                             A move action helps coordinate states as
-                            resources are moved from one account to
+                            resources are moved from one tenant to
                             another. Move actions must be acquired in
                             cases where operators wish to ensure
                             consistency between moves. An operator
                             acquires a move action by performing a
-                            &GET; on the move action URL of either a
+                            <command xmlns="http://docbook.org/ns/docbook">GET</command> on the move action URL of either a
                             specific resource
-                            (&hellip;/path/to/resource/action/move) or
-                            of an entire account
-                            (/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move).
-                            The destination account of the move must
+                            (…/path/to/resource/action/move) or
+                            of an entire tenant
+                            (/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move).
+                            The destination tenant of the move must
                             be specified in the
                             <parameter>dest</parameter> URL
                             parameter. An example request is
@@ -811,7 +885,39 @@
  ETag: "d8a5179a69519b32de12cad41705edd694790ffc"
                             </literallayout>
                             <programlisting language="xml">
-<xi:include href="samples/move.xml" parse="text"/>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;move xmlns="http://service.openstack.com/actions"
+      dest="176625343"&gt;
+    &lt;tenants&gt;
+        &lt;tenant id="17776666"&gt;
+            .
+            .
+            .
+        &lt;/tenant&gt;
+        &lt;tenant id="176625343"&gt;
+            .
+            .
+            .
+        &lt;/tenant&gt;
+    &lt;/tenants&gt;
+    &lt;resources&gt;
+        &lt;resource id="1"&gt;
+            .
+            .
+            .
+        &lt;/resource&gt;
+        &lt;resource id="2"&gt;
+            .
+            .
+            .
+        &lt;/resource&gt;
+        .
+        .
+        .
+    &lt;/resources&gt;
+&lt;/move&gt;
+
                             </programlisting>
                         </example>
                         <para>
@@ -819,23 +925,23 @@
                             service-specific.  The purpose of the
                             response is to allow operators to confirm
                             resource state before a move is requested.
-                            Thus the response &MUST; contain
+                            Thus the response <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> contain
                             information about the state of resources
-                            and accounts that are affected by the
+                            and tenants that are affected by the
                             move. An entity tag (<token>Etag</token>)
-                            header &MUST; be included in the response.
-                            The header &MUST; contain a quoted opaque
+                            header <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> be included in the response.
+                            The header <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis> contain a quoted opaque
                             string that uniquely identifies the
                             response.  In the example above we use a
                             SHA1 digest of the response text.  There
                             may be cases where the number of resources
                             affected by the move is very large.  In
-                            these cases, the response &SHOULD_NOT;
+                            these cases, the response <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis>
                             contain a list of all resources affected,
-                            but rather it &SHOULD; contain a tag that
+                            but rather it <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> contain a tag that
                             uniquely identifies the current state of
                             the affected resources.  The response
-                            &SHOULD; also contain metadata that is
+                            <emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis> also contain metadata that is
                             common to all resources affected by the
                             move.  This is illustrated in the example
                             below.
@@ -849,7 +955,26 @@
  ETag: "50d935685fc4d998e202f44694371875d4dfebb7"
                             </literallayout>
                             <programlisting language="xml">
-<xi:include href="samples/move-tagged.xml" parse="text"/>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;move xmlns="http://service.openstack.com/actions"
+      dest="176625343"&gt;
+    &lt;tenants&gt;
+        &lt;tenant id="17776666"&gt;
+            .
+            .
+            .
+        &lt;/tenant&gt;
+        &lt;tenant id="176625343"&gt;
+            .
+            .
+            .
+        &lt;/tenant&gt;
+    &lt;/tenants&gt;
+    &lt;resources tag="f152f9be36f69f0b162b32fe2beed8c61b99e69b" 
+               size="10000" total-usage="2.5TB" /&gt;
+&lt;/move&gt;
+
                             </programlisting>
                         </example>
                         <para>
@@ -874,42 +999,49 @@
                             Information)</returnvalue> if the request
                             is cached. Services should respond with a
                             <errorcode>404 (Not Found)</errorcode> if
-                            the account or resources does not exist. A
+                            the tenant or resources does not exist. A
                             return code of <errorcode>410
                             (Gone)</errorcode> signifies that the
-                            account has been recently deleted.
+                            tenant has been recently deleted.
                         </para>
                     </section>
                     <section>
                         <title>Conditional Move</title>
                         <informaltable rules="all">
-                            &LONG_URI_REFHEAD;
+                            
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="1">&POST;
+                                    <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">POST</command>
                                     </td>
-                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
                                     <td colspan="3">Perform a conditional move operation on a resource.</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="1">&POST;
+                                    <td colspan="1"><command xmlns="http://docbook.org/ns/docbook">POST</command>
                                     </td>
-                                    <td colspan="4">/<parameter>version</parameter>/<parameter>accountId</parameter>/action/move?<parameter>dest</parameter>=<literal>accountId</literal></td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
                                     <td colspan="3">Perform a conditional move operation on all resources.</td>
                                 </tr>
                             </tbody>
                         </informaltable>
                         <simpara>
-                            &CODES;
+                            Normal Response Code(s):
                             <returnvalue>200</returnvalue>,
                             <returnvalue>203</returnvalue>
                         </simpara>
                         <simpara>
-                            &ERROR_CODES;
+                            Error Response Code(s):
                             <errorcode>404</errorcode>,
                             <errorcode>410</errorcode>,
                             <errorcode>412</errorcode>,
-                            others &hellip;
+                            others …
                         </simpara>
                         <para>
                             Conditional moves work exactly like
@@ -932,8 +1064,8 @@
                             Here the move should fail with a
                             <errorcode>412 (Precondition
                             Failed)</errorcode> if any change in state
-                            has occurred between &GET; request and the
-                            &POST; request.
+                            has occurred between <command xmlns="http://docbook.org/ns/docbook">GET</command> request and the
+                            <command xmlns="http://docbook.org/ns/docbook">POST</command> request.
                         </para>
                     </section>
                 </section>
@@ -958,7 +1090,7 @@
                         operation.  That said, whether or not a
                         resource is movable depends on the specific
                         deployment.  For example, an operator may have
-                        a rule that accounts are only allowed to have
+                        a rule that tenants are only allowed to have
                         100 resources.  The move action request allows
                         operators to enforce the rule on moves.
                     </para>
@@ -998,8 +1130,7 @@
             </author>
             <title>Uniform Resource Locators (URL)</title>
             <releaseinfo>
-                <link
-                    xlink:href="http://tools.ietf.org/html/rfc1738">http://tools.ietf.org/html/rfc1738</link>
+                <link xlink:href="http://tools.ietf.org/html/rfc1738">http://tools.ietf.org/html/rfc1738</link>
             </releaseinfo>
         </biblioentry>
     </bibliography>

@@ -16,7 +16,7 @@ and for different operators. This blueprint therefore proposes a
 lightweight standard for how to identify tenants in an OpenStack
 deployment.
 
-What is an Account?
+What is a tenant?
 
-An account is an arbitrary string used to organize a collection of
+a tenant is an arbitrary string used to organize a collection of
 resources within a container or identify them as a group.
