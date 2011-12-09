@@ -20995,7 +20995,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-0" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-4"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-166">Multi-Tenant Accounting in OpenStack</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-166">Multi-Tenant Tenanting in OpenStack</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -23244,7 +23244,7 @@
 <sf:p sf:style="SFWPParagraphStyle-211" sf:list-level="2">Security: isolate tenants into separate security domains<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-211" sf:list-level="2">Performance: ability to provide performance guarantees (floor, ceiling) to tenant. Protecting tenants from their &#x2018;neighbors&#x2019;.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-211" sf:list-level="2">Portability: ability to move one tenant&#x2019;s resources, data, and/or workload.<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-210" sf:list-level="1">Accounting: Usage Tracking<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-210" sf:list-level="1">Tenanting: Usage Tracking<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-211" sf:list-level="2">The ability to track the usage per tenant (and per resource). Therefore, also tracking which tenant a resource belongs to.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-211" sf:list-level="2">Providing reports per-tenant.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-210" sf:list-level="1">Auditing<sf:br/></sf:p>
@@ -25113,21 +25113,21 @@
 <sf:text-body>
 <sf:p sf:style="SFWPParagraphStyle-197" sf:list-level="1">We need to define two different entities<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Tenants<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Accounts<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-197" sf:list-level="1">Operators Deal Only with Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Customers, Clients, Organizations<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Tenants are Billed<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Authorization Policies Assigned to Tenants<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-197" sf:list-level="1">Service Developers Deal Only with Accounts<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-197" sf:list-level="1">Service Developers Deal Only with Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">A top level collection of resources.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Located in the URI in the same place from one service to another<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-212" sf:list-level="3">
 <sf:span sf:style="SFWPCharacterStyle-102">/</sf:span>
 <sf:span sf:style="SFWPCharacterStyle-106">version</sf:span>
 <sf:span sf:style="SFWPCharacterStyle-102">/</sf:span>
-<sf:span sf:style="SFWPCharacterStyle-106">accountId<sf:br/></sf:span>
+<sf:span sf:style="SFWPCharacterStyle-106">tenantId<sf:br/></sf:span>
 </sf:p>
-<sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Attributes may be assigned to Accounts<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-196" sf:list-level="2">Attributes may be assigned to Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-212" sf:list-level="3">Service levels/tiers/zones?</sf:p>
 </sf:text-body>
 </sf:text-storage>
@@ -25407,7 +25407,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-45" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-16"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-295">The Account ID</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-295">The Tenant ID</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -25425,10 +25425,10 @@
 <sf:text-storage sfa:ID="SFWPStorage-46" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-16"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-293" sf:list-level="1">Binding Tenants and Accounts is the Account ID<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-293" sf:list-level="1">Binding Tenants and Tenants is the Tenant ID<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-292" sf:list-level="2">Operators<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="3">ID Created by Operators<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="3">Meaningful to Operators (Organize resellers, Sub Accounts)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="3">Meaningful to Operators (Organize resellers, Sub Tenants)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-292" sf:list-level="2">Service Devs<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="3">An arbitrary String<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="3">Usage annotated with it.</sf:p>
@@ -26132,7 +26132,7 @@
 <sf:filtered-image sfa:ID="SFRFilteredImage-7">
 <sf:unfiltered sfa:ID="SFRImageBinary-19">
 <sf:size sfa:w="580" sfa:h="395"/>
-<sf:data sfa:ID="SFEData-19" sf:path="AccountModel6.pdf" sf:displayname="AccountModel6.pdf" sf:hfs-type="1346651680" sf:size="109838"/>
+<sf:data sfa:ID="SFEData-19" sf:path="TenantModel6.pdf" sf:displayname="TenantModel6.pdf" sf:hfs-type="1346651680" sf:size="109838"/>
 </sf:unfiltered>
 <sf:extent>
 <sfa:rect sfa:x="0" sfa:y="0" sfa:w="580" sfa:h="395"/>
@@ -26383,13 +26383,13 @@
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-15"/>
 <sf:text-body>
 <sf:p sf:style="SFWPParagraphStyle-247" sf:list-level="1">Minimum Calls Required by all OpenStack services<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Get Account  (GET)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Get Account Metadata (HEAD)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Create Account  (PUT)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Remove an Account (DELETE)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Get Tenant  (GET)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Get Tenant Metadata (HEAD)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Create Tenant  (PUT)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Remove a tenant (DELETE)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-247" sf:list-level="1">Nice To Have, Move (Optional)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Move a Resource between an account (POST)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Move all Resources to a Separate Account (POST)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Move a Resource between a tenant (POST)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Move all Resources to a Separate Tenant (POST)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="2">Consistent Conditional Move (conditional POST)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-275" sf:list-level="3">Ensures resources are in the proper state<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-275" sf:list-level="3">Move Policies are followed</sf:p>
@@ -26702,8 +26702,8 @@
 <sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">HEAD /version/accountID<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">PUT /version/accountID<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-307" sf:list-level="1">Including Moves...<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">POST /version/<sf:span sf:style="SFWPCharacterStyle-137">accountID</sf:span>/<sf:span sf:style="SFWPCharacterStyle-136">path/to/resource</sf:span>/action/move?<sf:span sf:style="SFWPCharacterStyle-137">dest=destAccountID<sf:br/></sf:span></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">POST /version/<sf:span sf:style="SFWPCharacterStyle-137">accountID</sf:span>/action/move?<sf:span sf:style="SFWPCharacterStyle-137">dest=destAccountID</sf:span></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">POST /version/<sf:span sf:style="SFWPCharacterStyle-137">accountID</sf:span>/<sf:span sf:style="SFWPCharacterStyle-136">path/to/resource</sf:span>/action/move?<sf:span sf:style="SFWPCharacterStyle-137">dest=destTenantID<sf:br/></sf:span></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-308" sf:list-level="2">POST /version/<sf:span sf:style="SFWPCharacterStyle-137">accountID</sf:span>/action/move?<sf:span sf:style="SFWPCharacterStyle-137">dest=destTenantID</sf:span></sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -27810,7 +27810,7 @@
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-21"/>
 <sf:text-body>
 <sf:p sf:style="SFWPParagraphStyle-327" sf:list-level="1">Whether or not something is moveable depends on deployment/business logic:<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-328" sf:list-level="2">An account cannot have more than 100 resources</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-328" sf:list-level="2">a tenant cannot have more than 100 resources</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>

@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE article [
+        <!-- Some useful entities borrowed from HTML -->
+        <!ENTITY ndash  "&#x2013;">
+        <!ENTITY mdash  "&#x2014;">
+        <!ENTITY hellip "&#x2026;">
+
+        <!-- Useful for describing APIs -->
+        <!ENTITY GET    '<command xmlns="http://docbook.org/ns/docbook">GET</command>'>
+        <!ENTITY HEAD   '<command xmlns="http://docbook.org/ns/docbook">HEAD</command>'>
+        <!ENTITY PUT    '<command xmlns="http://docbook.org/ns/docbook">PUT</command>'>
+        <!ENTITY POST   '<command xmlns="http://docbook.org/ns/docbook">POST</command>'>
+        <!ENTITY DELETE '<command xmlns="http://docbook.org/ns/docbook">DELETE</command>'>
+
+        <!ENTITY CODES       'Normal Response Code(s):'>
+        <!ENTITY ERROR_CODES 'Error Response Code(s):'>
+
+        <!ENTITY LONG_URI_REFHEAD '
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="4">URI</td>
+              <td colspan="3">Description</td>
+            </tr>
+          </thead>'>
+        <!ENTITY URI_REFHEAD '
+          <thead xmlns="http://docbook.org/ns/docbook">
+            <tr>
+              <td colspan="1">Verb</td>
+              <td colspan="1">URI</td>
+              <td colspan="4">Description</td>
+            </tr>
+          </thead>'>
+
+
+        <!-- Useful for specs -->
+        <!ENTITY MAY    '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MAY</emphasis>'>
+        <!ENTITY SHOULD '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD</emphasis>'>
+        <!ENTITY MUST   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST</emphasis>'>
+        <!ENTITY MUST_NOT   '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">MUST NOT</emphasis>'>
+        <!ENTITY SHOULD_NOT '<emphasis xmlns="http://docbook.org/ns/docbook" role="strong">SHOULD NOT</emphasis>'>
+
+]>
+
+<article version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook"
+         class="specification"
+         status="draft">
+    <info>
+        <title>Multi-Tenant Tenanting in OpenStack</title>
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Jorge</firstname>
+                    <surname>Williams</surname>
+                    <othername role="mi">L</othername>
+                </personname>
+                <email>jorge.williams@rackspace.com</email>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Ziad</firstname>
+                    <surname>Sawalha</surname>
+                    <othername role="mi">N</othername>
+                </personname>
+                <email>ziad.sawalha@rackspace.com</email>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Khaled</firstname>
+                    <surname>Hussein</surname>
+                </personname>
+                <email>khaled.hussein@rackspace.com</email>
+            </author>
+        </authorgroup>
+        <abstract>
+            <para>
+                As a cloud computing platform, OpenStack must support
+                the concept of multi-tenancy. A common approach to
+                organizing resources by 'tenant' across services is
+                needed to be able to correlate usage tracking,
+                auditing, authorization, and so forth. Within each
+                multi-tenant service, the ability to identify each
+                tenant's resources is also key.
+            </para>
+            <para>
+              The exact definition of a tenant and what it maps to in an
+              operator's business model is unpredictable. Some operators will
+              map tenants to customes, others to tenants (whatever tenant
+              means for them), and others yet may map them to a cost center,
+              and environment (production, staging, test, dev), etc...
+              
+                This document explains the rationale behind the
+                lightweight standard for service developers adopted by OpenStack to
+                implement tenancy and resource grouping without
+                a-priori knowledge of billing, accountinging, and customer
+                models and processes
+                specific to the operator of an OpenStack deployment.
+            </para>
+        </abstract>
+        <keywordset>
+            <keyword>OpenStack</keyword>
+            <keyword>Multi-Tenancy</keyword>
+            <keyword>Resource Organization</keyword>
+        </keywordset>
+    </info>
+    <section>
+        <title>Rationale and Goals</title>
+        <para>
+            Building multi-tenant services is complicated and often
+            involves knowledge of business processes that vary from
+            one organization to another. We propose a method of
+            organizing resources that allows multi-tenancy to be
+            implemented on top of OpenStack services. By doing so we
+            introduce a separation of concern between operators and
+            service developers. Service developers offer management to
+            tenants.  From their perspective tenants are simply
+            collection of resources. Operators manage tenants that may
+            be associated with one or more accounts, customers, departments, or
+            whateve their business model looks like. This approach
+            lowers barriers to service developers by allowing them
+            to develop services without a-priori knowledge of billing
+            and accounting processes of the organization in which the
+            services are deployed. Likewise, organizations will be
+            given flexibility in the manner in which they deploy and
+            offer OpenStack services.  In this blueprint, we define a
+            simple tenant admin API that facilitates and
+            standardizes on this approach.
+        </para>
+    </section>
+    <section>
+        <title>Specification Overview</title>
+        <section>
+            <title>Tenant Lifecycle</title>
+            <para>
+                From the perspective of a service developer a tenant
+                ID is simply an arbitrary string that is used to
+                organize resources.  We propose that a string be used
+                as a top level resource collection after the version
+                identifier:
+                /<parameter>version</parameter>/<parameter>tenantId</parameter>.
+                Placing the tenant ID as a top level container
+                dictates that all client requests are automatically
+                associated with a tenant.  Requests to create
+                tenants or move resources between tenants are
+                received via an admin API which is described in
+                detail in the next section.  Developers are
+                responsible for ensuring that all usage metrics
+                contain the tenant ID string.
+            </para>
+            <para>
+                Service operators, on the other hand, are responsible
+                for organizing resources around tenants for the
+                purposes of billing and authorization.  Operators use
+                tenant IDs to help organize service resources. The then expose
+                service endpoints to their users and a method of tracking the
+                tenant ID (Example, they may
+                provide their tenants with API endpoints that contain
+                the tenant ID embedded in the URI or, as an alternative, may
+                track the tenant ID through the
+                use of an authentication mechanism like tokens from OpenStack's
+                Identity Service, called Keystone). The operator can
+                then collect usage logs from the service and aggregate
+                necessary usage metrics in order to charge back usage
+                for the tenant to the appropriate entity (customer, account,
+                department, cost center, etc...).
+            </para>
+            <para>
+                The relationships among tenants, operators, and
+                services are illustrated in detail in the figure
+                below.
+            </para>
+            <figure xml:id="both">
+                <title>Multi-Tenancy Overview</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" scale="65" format="svg"
+                                   fileref="images/TenantModel8.svg"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section>
+            <title>Admin API</title>
+            <para>
+                A <emphasis role="italic">service API</emphasis> is an
+                API that's made available to most clients &mdash; in
+                most cases it is the public API that users consume.
+                In contrast, an <emphasis role="italic">admin
+                API</emphasis> is an implementation of the service API
+                with additional calls to allow for the management and
+                maintenance of the service. The admin API is consumed
+                strictly by operators. Calls whose effects span
+                multiple tenants should be placed in an admin API.
+                Admin APIs &SHOULD_NOT; be exposed via public
+                endpoints and &SHOULD; have tighter security
+                constraints than those of service APIs. We
+                recommend that admin API users and service API users
+                authenticate against separate authentication
+                systems. All OpenStack services &MUST; implement an
+                admin API.
+            </para>
+            <note>
+                <para>
+                    The requirement for an additional admin API does
+                    not necessarily dictate that two separate
+                    implementations of the API be written. Service
+                    teams may opt to write a single implementation of
+                    the API and expose it via two separate endpoints:
+                    a public endpoint and an admin endpoint.  Alternatively,
+                    they may write one endpoint that exposes the administrative
+                    API calls to appropriately authorized clients. In the
+                    public endpoint, reverse proxy filters may be
+                    employed to cull admin calls before they reach the
+                    service implementation.  A different
+                    authentication component may also be used at each
+                    endpoint to interact with separate authentication
+                    systems.
+                </para>
+            </note>
+            <para>
+                In the following sections, we propose a set of calls
+                that &MUST; be implemented by admin APIs in OpenStack
+                and an optional set that &SHOULD; be
+                implemented. Together these calls allow for a simple
+                and consistent admin API for the management of
+                tenants in OpenStack.
+            </para>
+            <section>
+                <title>Required Operations</title>
+                <para>
+                    The following operations &MUST; be implemented by
+                    OpenStack services and &MUST; be made available
+                    via the admin API.  At their discretion, service
+                    operators &MAY; provide public access to &GET; and
+                    &HEAD; operations via the service API.  The &PUT;
+                    and &DELETE; calls, however, &SHOULD; be accessible
+                    from the admin API only.
+                </para>
+                <section xml:id="getTenantSection">
+                    <title>Get Tenant</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&GET;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Get Tenant.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>200</returnvalue>,
+                        <returnvalue>203</returnvalue>,
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        Services are not required to provide a
+                        representation of a tenant on a &GET;
+                        request. If a representation is returned, it
+                        &SHOULD; provide information about the tenant
+                        along with tenant metadata. Additionally, the
+                        representation &MAY; contain a list of top
+                        level tenant resources. The actual format of
+                        the representation is service-specific.
+                    </para>
+                    <para>
+                        If a service returns a tenant representation,
+                        it should return either a response code of
+                        <returnvalue>200 (Okay)</returnvalue> or
+                        <returnvalue>203 (Non-Authoritative
+                        Information)</returnvalue> if the request is
+                        cached. If a service does not return a
+                        representation, then it &MUST; return a
+                        <returnvalue>204 (No Content)</returnvalue>.
+                        Generally, a response code in the 200s
+                        signifies that the tenant exists and is
+                        valid. A <errorcode>404 (Not
+                        Found)</errorcode> signifies that the tenant
+                        does not exist and a <errorcode>410
+                        (Gone)</errorcode> means that the tenant has
+                        recently been marked for deletion, is currently
+                        unavailable, and may be recoverable. Services
+                        may provide an additional operation to recover
+                        a recently removed tenant.
+                    </para>
+                </section>
+                <section>
+                    <title>Get Tenant Metadata</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&HEAD;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Get Tenant Metadata.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        A &HEAD; operation &MAY; return metadata for
+                        a tenant. If it does, it &MUST; return the
+                        same metadata that would be returned via a
+                        &GET; operation. The response to this call
+                        &MUST; only contain HTTP headers. As with
+                        &GET; requests, a <returnvalue>204 (No
+                        Content)</returnvalue> signifies that the
+                        tenant exists and is valid. A <errorcode>404
+                        (Not Found)</errorcode> signifies that the
+                        tenant does not exist and a <errorcode>410
+                        (Gone)</errorcode> means that the tenant has
+                        recently been marked for deletion, is
+                        currently unavailable, and may be
+                        recoverable. Again, services may provide an
+                        additional operation to recover a recently
+                        removed tenant. The &HEAD; operation may be
+                        used as a shorthand for &GET; in cases where
+                        the service returns a representation document
+                        but the client is not interested in it.
+                    </para>
+                </section>
+                <section>
+                    <title>Create a tenant</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&PUT;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Create or Modify a tenant.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>201</returnvalue>,
+                        <returnvalue>202</returnvalue>,
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>409</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        A &PUT; operation can be used to create or
+                        (optionally) modify a tenant.  If a service
+                        provides a representation for a tenant, the
+                        representation &SHOULD; be included as part of
+                        the &PUT; request and it &SHOULD; match the
+                        representation returned by &GET;.  One possible
+                        use of a tenant representation is to keep
+                        track of a tenant's tier in cases where the
+                        service offers different levels of performance
+                        at different tiers.  Here, an operator may
+                        create a new tenant and assign it to a tier
+                        with a single &PUT; request. The operator may
+                        also update a tenant's tier by performing
+                        additional &PUT;s on the tenant. On success,
+                        a <returnvalue>201 (Created)</returnvalue>
+                        should be returned when the tenant is created
+                        and a <returnvalue>202
+                        (Accepted)</returnvalue> should be returned
+                        when the tenant is modified.
+                    </para>
+                    <para>
+                        In cases where the tenant representation
+                        offers a list of tenant resources, the &PUT;
+                        operation &SHOULD_NOT; be used to add
+                        resources to or remove resources from the
+                        tenant.  Services &MUST; ensure that &PUT;
+                        requests are idempotent.  If a tenant does
+                        not have a representation, or the
+                        representation is not updatable, a
+                        <errorcode>409 (Conflict)</errorcode> may be
+                        returned to indicate that a tenant with the
+                        given ID has already been created and may not
+                        be updated.
+                    </para>
+                    <para>
+                        Note that a &PUT; operation is used to create
+                        a new tenant <emphasis>with a tenant
+                        ID</emphasis>. This means that the operator is
+                        in complete control of the tenant ID value
+                        and that the tenant ID is
+                        <emphasis>not</emphasis> generated by the
+                        service. That said, the following are the
+                        properties of an tenant ID that service
+                        implementers can rely on.
+                    </para>
+                    <orderedlist>
+                        <listitem>
+                            <para>
+                                The tenant ID is a string in the
+                                UTF-8 character set.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The UTF-8 string will not be greater
+                                than 255 character units and it will
+                                not be empty.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The string may contain any character
+                                other than the path separator:
+                                <literal>/</literal>.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The UTF-8 string will be properly
+                                encoded in the request URL according
+                                to the encoding rules defined in RFC
+                                1738 <xref
+                                linkend="rfc1738"/>. Services &MAY;
+                                reject improperly encoded URLs.
+                            </para>
+                        </listitem>
+                    </orderedlist>
+                    <para>
+                        An OpenStack service should make no
+                        assumptions about the tenant ID other than
+                        those listed above. As a result, services
+                        &MUST; set aside 255 character units for
+                        storing tenant IDs. Services should also consider
+                        long tenant IDs when imposing limits on the
+                        size of a request URL.
+                    </para>
+                    <para>
+                        The following are examples of tenant IDs and
+                        their encoded URLs:
+                    </para>
+                    <example>
+                        <title>Example tenant IDs</title>
+                        <informaltable rules="all">
+                            <thead>
+                                <tr>
+                                    <td colspan="1">
+                                        <parameter>tenantId</parameter>
+                                    </td>
+                                    <td colspan="4">Sample Encoded URL</td>
+                                    <td colspan="1">Valid</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">12345</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/12345/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">Bob's Tenant</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/Bob's%20Tenant/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">∑∞∆∏</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/%E2%88%91%E2%88%9E%E2%88%86%E2%88%8F/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel:sub:acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1:sub2:acct3/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel\sub\acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1\sub2\acct3/widgets</td>
+                                    <td colspan="1">Yes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">resel/sub/acct</td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0/resel1/sub2/acct3/widgets</td>
+                                    <td colspan="1">No, using path separator.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1"></td>
+                                    <td colspan="4">https://widgets.openstack.com/v1.0//widgets</td>
+                                    <td colspan="1">No, empty.</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                    </example>
+                    <para>
+                        The restrictions placed on tenant IDs
+                        &SHOULD; be described in the admin API
+                        documentation and &MAY; also be documented in
+                        the admin WADL. An example WADL is illustrated
+                        below.
+                    </para>
+                    <example>
+                        <title>Tenant ID Sample WADL Definition</title>
+                        <programlistingco>
+                            <areaspec>
+                                <area xml:id="tenant.pattern" units="linecolumn" coords="17 42"/>
+                                <area xml:id="tenant.param" units="linecolumn" coords="25 70"/>
+                            </areaspec>
+                            <programlisting language="xml">
+<xi:include href="samples/tenant.wadl" parse="text"/>
+                            </programlisting>
+                        </programlistingco>
+                    </example>
+                    <calloutlist>
+                        <callout arearefs="tenant.pattern">
+                            <para>
+                                Note that the tenant ID pattern is
+                                very simple. Tenant IDs must contain
+                                one or more characters not matching
+                                the path separator:
+                                <literal>/</literal>.
+                            </para>
+                        </callout>
+                        <callout arearefs="tenant.param">
+                            <para>
+                                Here we define
+                                <parameter>tenantId</parameter> as a
+                                URI template parameter of type
+                                <type>TenantID</type>. The fact that
+                                we define the <type>TenantID</type>
+                                type so that it restricts the use of
+                                the path separator character is
+                                redundant in this case because
+                                template parameters do not allow
+                                values with path separators.
+                                Nonetheless, we define the
+                                <type>TenantID</type> type in order
+                                to be explicit and in case the type is
+                                used elsewhere.
+                            </para>
+                        </callout>
+                    </calloutlist>
+                </section>
+                <section>
+                    <title>Remove a tenant</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&DELETE;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter></td>
+                                <td colspan="3">Remove a tenant.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        A &DELETE; operation is used to remove a
+                        tenant. a tenant's resources &SHOULD; be
+                        deleted after a tenant has been
+                        removed. That said, resources &SHOULD; remain
+                        recoverable and in a deleted state for a
+                        period of time before they are actually
+                        removed.  This prevents data loss in cases
+                        involving human error. The &DELETE; operation
+                        &SHOULD; always return asynchronously. On
+                        success it should return a <returnvalue>204
+                        (No Content)</returnvalue>. The operation
+                        should return a <errorcode>404 (Not
+                        Found)</errorcode> if the tenant does not
+                        exist and a <errorcode>410 (Gone)</errorcode>
+                        if the tenant has already been marked for
+                        deletion and is still in a recoverable
+                        state. Services may provide an additional
+                        operation to recover tenants that have been
+                        marked for deletion but have not yet been
+                        removed.
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Optional Operations</title>
+                <para>
+                    The following operations &SHOULD; be implemented
+                    by OpenStack services, but it is not a strict
+                    requirement that services support them.  The
+                    operations involve moving resources from one
+                    tenant to another.  There are a number of use
+                    cases where such moves are necessary, and the
+                    operations below allow these use cases to be
+                    implemented in an efficient manner. If a service
+                    team should decide not to include support for the
+                    following calls it is recommended that, at the
+                    very least, a manual operational process exists
+                    that provides the ability to transfer resources
+                    between tenants.
+                </para>
+                <section>
+                    <title>Move a Resource</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&POST;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                <td colspan="3">Move a Resource</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>303</returnvalue>,
+                        <returnvalue>301</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        A &POST; operation on a move action URL of a
+                        resource
+                        (&hellip;/path/to/resource/action/move) causes
+                        the resource specified by the path to move to
+                        the tenant in the <parameter>dest</parameter>
+                        URL parameter.  The operation does not require
+                        a content body. On success, the service should
+                        return a <returnvalue>303 (See
+                        Other)</returnvalue> with a
+                        <token>Location</token> header pointing to the
+                        resource's new home.  The service should
+                        respond with a <errorcode>404 (Not
+                        Found)</errorcode> if the resource does not
+                        exist or <errorcode>410 (Gone)</errorcode> if
+                        the resource has been recently
+                        deleted. Additionally, a service may respond
+                        with a <returnvalue>301 (Moved
+                        Permanently)</returnvalue> if the resource has
+                        already been moved.  In this case, the
+                        <token>Location</token> header should point
+                        to  the move action URL in the new resource
+                        location.
+                    </para>
+                    <para>
+                        After the resource has been moved a service
+                        may respond with either a <errorcode>404 (Not
+                        Found)</errorcode> or a <returnvalue>301
+                        (Moved Permanently)</returnvalue> to a &GET;
+                        request on the resource itself
+                        (&hellip;/path/to/resource). The
+                        <returnvalue>301</returnvalue> response must
+                        contain a <token>Location</token> header with
+                        an URL pointing to the resource's new
+                        location.
+                    </para>
+                </section>
+                <section>
+                    <title>Move all Resources</title>
+                    <informaltable rules="all">
+                        &LONG_URI_REFHEAD;
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&POST;
+                                </td>
+                                <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                <td colspan="3">Moves all resources into a destination tenant.</td>
+                            </tr>
+                        </tbody>
+                    </informaltable>
+                    <simpara>
+                        &CODES;
+                        <returnvalue>204</returnvalue>,
+                        <returnvalue>202</returnvalue>
+                    </simpara>
+                    <simpara>
+                        &ERROR_CODES;
+                        <errorcode>404</errorcode>,
+                        <errorcode>410</errorcode>,
+                        others &hellip;
+                    </simpara>
+                    <para>
+                        A &POST; operation on a move action URL of a
+                        tenant
+                        (/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move)
+                        causes all resources in that tenant to move
+                        to the tenant specified by the
+                        <parameter>dest</parameter> URL parameter.
+                        This operation is very similar to the
+                        operation described above, except that it
+                        moves all resources in the tenant instead of
+                        a single resource.  It is important to note
+                        that the tenant &MUST_NOT; be deleted
+                        automatically after resources have been
+                        moved. Instead, an operator must explicitly
+                        issue a &DELETE; on the tenant.  On success,
+                        the call should return a <returnvalue>303 (See
+                        Other)</returnvalue> with a
+                        <token>Location</token> header pointing to the
+                        destination tenant.  The service should
+                        respond with a <errorcode>404 (Not
+                        Found)</errorcode> if the tenant does not
+                        exist or <errorcode>410 (Gone)</errorcode> if
+                        the tenant has been recently deleted.  A
+                        service may respond with either a
+                        <errorcode>404 (Not Found)</errorcode> or a
+                        <returnvalue>301 (Moved
+                        Permanently)</returnvalue> on a &GET; request
+                        on a previously moved resource.  The
+                        <returnvalue>301</returnvalue> response
+                        must contain a <token>Location</token> header
+                        with an URL pointing to the resource's
+                        location in the new tenant.
+                    </para>
+                </section>
+                <section>
+                    <title>Ensuring Consistency</title>
+                    <para>
+                        The move operations above assume that
+                        resources are logically, and not physically,
+                        organized into tenants. In this case, move
+                        operations are virtual and can occur without
+                        the need to ensure consistency between
+                        resources as they move from one tenant to
+                        another.  There may be cases, however, where
+                        tenants provide a physical organization of
+                        resources.  For example, tenants may be
+                        placed in different service tiers and the
+                        tiers may be distributed among different sets
+                        of nodes in a cluster. Here, resources must be
+                        physically moved from one node to another, and
+                        operators must be assured that a resource is
+                        in a consistent state before it can be
+                        moved. The operations below allow for
+                        consistent moves by utilizing a <emphasis>move
+                        action</emphasis> resource.
+                    </para>
+                    <section>
+                        <title>Get a Move Action</title>
+                        <informaltable rules="all">
+                            &LONG_URI_REFHEAD;
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">&GET;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                    <td colspan="3">Get resource move action.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">&GET;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                    <td colspan="3">Get all resource move action.</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                        <simpara>
+                            &CODES;
+                            <returnvalue>200</returnvalue>,
+                            <returnvalue>203</returnvalue>
+                        </simpara>
+                        <simpara>
+                            &ERROR_CODES;
+                            <errorcode>404</errorcode>,
+                            <errorcode>410</errorcode>,
+                            others &hellip;
+                        </simpara>
+                        <para>
+                            A move action helps coordinate states as
+                            resources are moved from one tenant to
+                            another. Move actions must be acquired in
+                            cases where operators wish to ensure
+                            consistency between moves. An operator
+                            acquires a move action by performing a
+                            &GET; on the move action URL of either a
+                            specific resource
+                            (&hellip;/path/to/resource/action/move) or
+                            of an entire tenant
+                            (/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move).
+                            The destination tenant of the move must
+                            be specified in the
+                            <parameter>dest</parameter> URL
+                            parameter. An example request is
+                            illustrated below.
+                        </para>
+                        <example>
+                            <title>Get Move Action Request</title>
+                            <literallayout class="monospaced">
+ GET /v1.0/17776666/action/move?dest=176625343 HTTP/1.1
+ Host: service.openstack.com
+                            </literallayout>
+                        </example>
+                        <example>
+                            <title>Get Move Action Response (Full)</title>
+                            <literallayout class="monospaced">
+ HTTP/1.1 200 Okay
+ Date: Mon, 12 Nov 2010 15:55:01 GMT
+ Content-Type: application/xml; charset=UTF-8
+ ETag: "d8a5179a69519b32de12cad41705edd694790ffc"
+                            </literallayout>
+                            <programlisting language="xml">
+<xi:include href="samples/move.xml" parse="text"/>
+                            </programlisting>
+                        </example>
+                        <para>
+                            The response to the move action request is
+                            service-specific.  The purpose of the
+                            response is to allow operators to confirm
+                            resource state before a move is requested.
+                            Thus the response &MUST; contain
+                            information about the state of resources
+                            and tenants that are affected by the
+                            move. An entity tag (<token>Etag</token>)
+                            header &MUST; be included in the response.
+                            The header &MUST; contain a quoted opaque
+                            string that uniquely identifies the
+                            response.  In the example above we use a
+                            SHA1 digest of the response text.  There
+                            may be cases where the number of resources
+                            affected by the move is very large.  In
+                            these cases, the response &SHOULD_NOT;
+                            contain a list of all resources affected,
+                            but rather it &SHOULD; contain a tag that
+                            uniquely identifies the current state of
+                            the affected resources.  The response
+                            &SHOULD; also contain metadata that is
+                            common to all resources affected by the
+                            move.  This is illustrated in the example
+                            below.
+                        </para>
+                        <example>
+                            <title>Get Move Action Response (Tagged)</title>
+                            <literallayout class="monospaced">
+ HTTP/1.1 200 Okay
+ Date: Mon, 12 Nov 2010 15:55:01 GMT
+ Content-Type: application/xml; charset=UTF-8
+ ETag: "50d935685fc4d998e202f44694371875d4dfebb7"
+                            </literallayout>
+                            <programlisting language="xml">
+<xi:include href="samples/move-tagged.xml" parse="text"/>
+                            </programlisting>
+                        </example>
+                        <para>
+                            Note that the tag in the content of the
+                            message is different from the one supplied
+                            via the <token>ETag</token>. The
+                            <token>ETag</token> uniquely identifies
+                            the move action response.  The tag in the
+                            content identifies the state of all of the
+                            resources affected.  Conceptually, one can
+                            think of it as the sum of all of the
+                            <token>ETag</token>s of the affected
+                            resources.  It is also important to note
+                            that a change in the tag  will cause the
+                            <token>ETag</token> to change.
+                        </para>
+                        <para>
+                            On success, a request for a move action
+                            should return a response code of
+                            <returnvalue>200 (Okay)</returnvalue> or
+                            <returnvalue>203 (Non-Authoritative
+                            Information)</returnvalue> if the request
+                            is cached. Services should respond with a
+                            <errorcode>404 (Not Found)</errorcode> if
+                            the tenant or resources does not exist. A
+                            return code of <errorcode>410
+                            (Gone)</errorcode> signifies that the
+                            tenant has been recently deleted.
+                        </para>
+                    </section>
+                    <section>
+                        <title>Conditional Move</title>
+                        <informaltable rules="all">
+                            &LONG_URI_REFHEAD;
+                            <tbody>
+                                <tr>
+                                    <td colspan="1">&POST;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/path/to/resource/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                    <td colspan="3">Perform a conditional move operation on a resource.</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">&POST;
+                                    </td>
+                                    <td colspan="4">/<parameter>version</parameter>/<parameter>tenantId</parameter>/action/move?<parameter>dest</parameter>=<literal>tenantId</literal></td>
+                                    <td colspan="3">Perform a conditional move operation on all resources.</td>
+                                </tr>
+                            </tbody>
+                        </informaltable>
+                        <simpara>
+                            &CODES;
+                            <returnvalue>200</returnvalue>,
+                            <returnvalue>203</returnvalue>
+                        </simpara>
+                        <simpara>
+                            &ERROR_CODES;
+                            <errorcode>404</errorcode>,
+                            <errorcode>410</errorcode>,
+                            <errorcode>412</errorcode>,
+                            others &hellip;
+                        </simpara>
+                        <para>
+                            Conditional moves work exactly like
+                            unconditional move requests except that an
+                            <token>If-Match</token> header should be
+                            included containing the
+                            <token>ETag</token> of the move action.
+                            An example request is illustrated below.
+                        </para>
+                        <example>
+                            <title>Conditional Move Request</title>
+                            <literallayout class="monospaced">
+ POST /v1.0/17776666/action/move?dest=176625343 HTTP/1.1
+ Host: service.openstack.com
+ If-Match: "d8a5179a69519b32de12cad41705edd694790ffc"
+ Content-Type: application/xml
+                            </literallayout>
+                        </example>
+                        <para>
+                            Here the move should fail with a
+                            <errorcode>412 (Precondition
+                            Failed)</errorcode> if any change in state
+                            has occurred between &GET; request and the
+                            &POST; request.
+                        </para>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title>Questions and Answers</title>
+        <qandaset defaultlabel="number">
+            <qandaentry>
+                <question>
+                    <para>
+                        Why go through the trouble of obtaining a move
+                        action?  Why not simply fail a move request if
+                        a resource is in an unmovable state?
+                    </para>
+                </question>
+                <answer>
+                    <para>
+                        If a service can detect an unmovable state
+                        then it should certainly fail the move
+                        operation.  That said, whether or not a
+                        resource is movable depends on the specific
+                        deployment.  For example, an operator may have
+                        a rule that tenants are only allowed to have
+                        100 resources.  The move action request allows
+                        operators to enforce the rule on moves.
+                    </para>
+                </answer>
+            </qandaentry>
+        </qandaset>
+    </section>
+    <bibliography>
+        <title>References</title>
+        <biblioentry xml:id="rfc1738">
+            <author>
+                <personname>
+                    <surname>Berners-Lee</surname>
+                    <othername role="fi">T</othername>
+                </personname>
+                <affiliation>
+                    <orgname>CERN</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <surname>Masinter</surname>
+                    <othername role="fi">L</othername>
+                </personname>
+                <affiliation>
+                    <orgname>Xerox Corporation</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <surname>McCahill</surname>
+                    <othername role="fi">M</othername>
+                </personname>
+                <affiliation>
+                    <orgname>University of Minnesota</orgname>
+                </affiliation>
+            </author>
+            <title>Uniform Resource Locators (URL)</title>
+            <releaseinfo>
+                <link
+                    xlink:href="http://tools.ietf.org/html/rfc1738">http://tools.ietf.org/html/rfc1738</link>
+            </releaseinfo>
+        </biblioentry>
+    </bibliography>
+</article>

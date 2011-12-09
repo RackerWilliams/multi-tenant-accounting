@@ -11,7 +11,7 @@
         targetNamespace="http://widget.openstack.com/widget/api/v1.0"
         xmlns="http://www.w3.org/2001/XMLSchema">
 
-        <simpleType name="AccountID">
+        <simpleType name="TenantID">
             <restriction base="xsd:string">
                 <pattern value="[^/]+" />
             </restriction>
@@ -20,8 +20,8 @@
    </grammars>
 
    <resources base="https://widget.openstack.com/widget/api/v1.0">
-    <resource path="{accountId}">
-        <param name="accountId" style="template" type="w:AccountID"/>
+    <resource path="{tenantId}">
+        <param name="tenantId" style="template" type="w:TenantID"/>
         .
         .
         .

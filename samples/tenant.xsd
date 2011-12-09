@@ -7,8 +7,8 @@
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:w="http://widget.openstack.com/widget/api/v1.0"
         xmlns="http://www.w3.org/2001/XMLSchema">
-    <element name="accountID" type="w:AccountID" />
-    <simpleType name="AccountID">
+    <element name="tenantID" type="w:TenantID" />
+    <simpleType name="TenantID">
         <restriction base="xsd:string">
             <pattern value="[^/]+" />
         </restriction>

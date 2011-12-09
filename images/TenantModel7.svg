@@ -15,7 +15,7 @@
    width="705.29267"
    height="468.95125"
    xml:space="preserve"
-   sodipodi:docname="OpenStack Accounting Model v1.1.graffle.pdf"><metadata
+   sodipodi:docname="OpenStack Tenanting Model v1.1.graffle.pdf"><metadata
      id="metadata3849"><rdf:RDF><cc:Work
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
@@ -505,7 +505,7 @@
      inkscape:current-layer="g3851" /><g
      id="g3851"
      inkscape:groupmode="layer"
-     inkscape:label="OpenStack Accounting Model v1.1.graffle"
+     inkscape:label="OpenStack Tenanting Model v1.1.graffle"
      transform="matrix(1.25,0,0,-1.25,-1.2317074,935.41462)"><g
        id="g6434"><g
          id="g3853" /><g
@@ -921,7 +921,7 @@
                  sodipodi:role="line"
                  y="0"
                  x="0 4.8008 9.6016 14.4024 19.2032 24.004 28.8048"
-                 style="fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;font-variant:normal;font-weight:bold;font-size:8;writing-mode:lr;-inkscape-font-specification:CourierPS-BoldMT">Account</tspan></text>
+                 style="fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;font-variant:normal;font-weight:bold;font-size:8;writing-mode:lr;-inkscape-font-specification:CourierPS-BoldMT">Tenant</tspan></text>
 </g><g
              transform="matrix(1,0,0,-1,446.326,420.9)"
              id="g4133"><text
@@ -1391,7 +1391,7 @@
              sodipodi:role="line"
              y="0"
              x="0 5.7775998 10.2272 14.6768 19.5632 24.4496 29.336 32 34.222401 40.886398 45.335999 50.222401 55.108799 57.3312 62.217602"
-             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Account Mapping</tspan></text>
+             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Tenant Mapping</tspan></text>
 </g><g
          transform="matrix(1,0,0,-1,0,792)"
          id="g4943"><path
@@ -1417,7 +1417,7 @@
              sodipodi:role="line"
              y="0"
              x="0 4.8007998 9.6015997 14.4024 19.203199 24.004 28.8048"
-             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;-inkscape-font-specification:CourierPS-BoldMT">Account</tspan></text>
+             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;-inkscape-font-specification:CourierPS-BoldMT">Tenant</tspan></text>
 </g><g
          transform="matrix(1,0,0,-1,63.826,483.8997)"
          id="g4959"><text
@@ -1978,7 +1978,7 @@
              sodipodi:role="line"
              y="0"
              x="0 5.7775998 10.2272 14.6768 19.5632 24.4496 29.336 32 34.222401 39.108799"
-             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Accounting</tspan></text>
+             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Tenanting</tspan></text>
 </g><g
          transform="matrix(1,0,0,-1,0,792)"
          id="g5301"><path
@@ -2004,7 +2004,7 @@
              sodipodi:role="line"
              y="0"
              x="0 4.8007998 9.6015997 14.4024 19.203199 24.004 28.8048 33.605598"
-             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;-inkscape-font-specification:CourierPS-BoldMT">Account </tspan></text>
+             style="font-size:8px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#ce1c00;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Courier;-inkscape-font-specification:CourierPS-BoldMT">Tenant </tspan></text>
 </g><g
          transform="matrix(1,0,0,-1,86.99028,412.85281)"
          id="g5317"><text
@@ -2549,5 +2549,5 @@
              sodipodi:role="line"
              y="0"
              x="0 10.1108 17.8976 25.684401 34.2356 42.7868 51.338001 56 59.889198 68.440399 76.9916 80.880798 92.542801 101.094 109.6452 117.432 121.3212 125.2104 129.87241 133.7616 143.09959 150.8864 158.6732 171.12199 179.6732 183.56239 191.3492 195.2384 205.3492 213.136 221.68719 225.5764 234.12759 241.9144 254.3632 262.14999 270.7012"
-             style="font-size:14px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Accounting Model - Example Deployment</tspan></text>
+             style="font-size:14px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica-BoldMT">Tenanting Model - Example Deployment</tspan></text>
 </g></g></g></svg>

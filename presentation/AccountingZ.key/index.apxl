@@ -21013,7 +21013,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-0" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-4"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-166">Multi-Tenant Accounting in OpenStack</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-166">Multi-Tenant Tenanting in OpenStack</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -24034,7 +24034,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-12" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-7"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-204">Multi-Tenant Accounting</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-204">Multi-Tenant Tenanting</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -25668,10 +25668,10 @@
 <sf:p sf:style="SFWPParagraphStyle-240" sf:list-level="1">Both have tenants in one deployment of SWIFT<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-240" sf:list-level="1">SWIFT:<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">calls uses the term &#x2018;account&#x2019; for a tenant<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">does not attach &#x2018;meaning&#x2019; to what an account is<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">does not attach &#x2018;meaning&#x2019; to what a tenant is<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">accepts accounts as operator-provided, arbitrary strings<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">reports the account string in it&#x2019;s usage logs<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">has the capability to perform authorization on an account<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-241" sf:list-level="2">has the capability to perform authorization on a tenant<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-240" sf:list-level="1">
 <sf:br/>
 </sf:p>
@@ -26624,7 +26624,7 @@
 <sf:p sf:style="SFWPParagraphStyle-260" sf:list-level="1">Solution:<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="1">Tenant is just an arbitrary string.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="1">CRUD on tenants belongs on Admin API (looks like a collection)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="1">Call it an &#x2018;Account&#x2019;<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="1">Call it an &#x2018;Tenant&#x2019;<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-259" sf:list-level="1">Three integration points:<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-262" sf:list-level="2">Collection CRUD on Admin API<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-262" sf:list-level="2">Consumer URLs contain the account<sf:br/></sf:p>
@@ -27005,9 +27005,9 @@
 <sf:text-body>
 <sf:p sf:style="SFWPParagraphStyle-284" sf:list-level="1">We need to define two different entities<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-261" sf:list-level="2">Tenants<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-261" sf:list-level="2">Accounts<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-261" sf:list-level="2">Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-284" sf:list-level="1">Operators Deal Only with Tenants<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-284" sf:list-level="1">Service Developers Deal Only with Accounts</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-284" sf:list-level="1">Service Developers Deal Only with Tenants</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -27759,7 +27759,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-36" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-13"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-293">Tenants vs. Accounts</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-293">Tenants vs. Tenants</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -27784,7 +27784,7 @@
 <sf:br/>
 </sf:p>
 <sf:p sf:style="SFWPParagraphStyle-294" sf:list-level="1">
-<sf:span sf:style="character-style-null">Account is an OpenStack service construct. It </sf:span>
+<sf:span sf:style="character-style-null">Tenant is an OpenStack service construct. It </sf:span>
 <sf:span sf:style="SFWPCharacterStyle-115">does</sf:span>
 <sf:span sf:style="character-style-null"> exist in service code and architecture.<sf:br/></sf:span>
 </sf:p>
@@ -27794,9 +27794,9 @@
 <sf:span sf:style="SFWPCharacterStyle-162">/</sf:span>
 <sf:span sf:style="SFWPCharacterStyle-161">version</sf:span>
 <sf:span sf:style="SFWPCharacterStyle-162">/</sf:span>
-<sf:span sf:style="SFWPCharacterStyle-161">accountId<sf:br/></sf:span>
+<sf:span sf:style="SFWPCharacterStyle-161">tenantId<sf:br/></sf:span>
 </sf:p>
-<sf:p sf:style="SFWPParagraphStyle-338" sf:list-level="2">Attributes may be assigned to Accounts<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-338" sf:list-level="2">Attributes may be assigned to Tenants<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-339" sf:list-level="3">Service levels/tiers/zones?<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-294" sf:list-level="1">The operator determines how they want to map tenants to accounts:<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-296" sf:list-level="2">1:1 &#x2013; one tenant = one account<sf:br/></sf:p>
@@ -28135,7 +28135,7 @@
 <sf:text-storage sfa:ID="SFWPStorage-55" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-18"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-325">The Account ID</sf:p>
+<sf:p sf:style="SFWPParagraphStyle-325">The Tenant ID</sf:p>
 </sf:text-body>
 </sf:text-storage>
 </key:text>
@@ -28153,10 +28153,10 @@
 <sf:text-storage sfa:ID="SFWPStorage-56" sf:kind="textbox" sf:excl="G">
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-18"/>
 <sf:text-body>
-<sf:p sf:style="SFWPParagraphStyle-328" sf:list-level="1">Binding Tenants and Accounts is the Account ID<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-328" sf:list-level="1">Binding Tenants and Tenants is the Tenant ID<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-324" sf:list-level="2">Operators<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-326" sf:list-level="3">ID Created by Operators<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-326" sf:list-level="3">Meaningful to Operators (Organize resellers, Sub Accounts)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-326" sf:list-level="3">Meaningful to Operators (Organize resellers, Sub Tenants)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-324" sf:list-level="2">Service Devs<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-326" sf:list-level="3">An arbitrary String<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-326" sf:list-level="3">Usage annotated with it.</sf:p>
@@ -28517,13 +28517,13 @@
 <sf:stylesheet-ref sfa:IDREF="SFSStylesheet-19"/>
 <sf:text-body>
 <sf:p sf:style="SFWPParagraphStyle-334" sf:list-level="1">Minimum Calls Required by all OpenStack services<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Get Account  (GET)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Get Account Metadata (HEAD)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Create Account  (PUT)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Remove an Account (DELETE)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Get Tenant  (GET)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Get Tenant Metadata (HEAD)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Create Tenant  (PUT)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Remove a tenant (DELETE)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-334" sf:list-level="1">Nice To Have, Move (Optional)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Move a Resource between an account (POST)<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Move all Resources to a Separate Account (POST)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Move a Resource between a tenant (POST)<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Move all Resources to a Separate Tenant (POST)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-337" sf:list-level="2">Consistent Conditional Move (conditional POST)<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-335" sf:list-level="3">Ensures resources are in the proper state<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-335" sf:list-level="3">Move Policies are followed</sf:p>
@@ -30899,7 +30899,7 @@
 <sf:p sf:style="SFWPParagraphStyle-322" sf:list-level="2">Security: isolate tenants into separate security domains<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-322" sf:list-level="2">Performance: ability to provide performance guarantees (floor, ceiling) to tenant. Protecting tenants from their &#x2018;neighbors&#x2019;.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-322" sf:list-level="2">Portability: ability to move one tenant&#x2019;s resources, data, and/or workload.<sf:br/></sf:p>
-<sf:p sf:style="SFWPParagraphStyle-321" sf:list-level="1">Accounting: Usage Tracking<sf:br/></sf:p>
+<sf:p sf:style="SFWPParagraphStyle-321" sf:list-level="1">Tenanting: Usage Tracking<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-322" sf:list-level="2">The ability to track the usage per tenant (and per resource). Therefore, also tracking which tenant a resource belongs to.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-322" sf:list-level="2">Providing reports per-tenant.<sf:br/></sf:p>
 <sf:p sf:style="SFWPParagraphStyle-321" sf:list-level="1">Auditing<sf:br/></sf:p>
